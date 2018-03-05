@@ -22,7 +22,7 @@ setup(
     description='Django app for working with OS Addressbase, ONSUD and ONSPD',
     long_description=_get_description(),
     install_requires=[
-        'Django',
+        'Django>=1.11,<2.0',
         'psycopg2-binary',
     ],
     classifiers=[
