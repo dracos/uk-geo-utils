@@ -32,8 +32,8 @@ class Command(BaseCommand):
             fp = open(f, 'r')
             cursor.copy_expert("""
                 COPY %s (
-                uprn, ctry_flag, cty, lad, ward, hlthau, ctry,
-                rgn, pcon, eer, ttwa, nuts, park, oa11, lsoa11, msoa11, parish,
+                uprn, ctry_flag, cty, ced, lad, ward, parish, hlthau, ctry,
+                rgn, pcon, eer, ttwa, nuts, park, oa11, lsoa11, msoa11,
                 wz11, ccg, bua11, buasd11, ruc11, oac11, lep1, lep2, pfa, imd)
                 FROM STDIN (FORMAT CSV, DELIMITER ',', QUOTE '"', HEADER);
             """ % (self.table_name), fp)

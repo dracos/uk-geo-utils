@@ -66,8 +66,10 @@ class AbstractOnsud(models.Model):
     """
     ctry_flag = models.CharField(blank=True, max_length=1)
     cty = models.CharField(blank=True, max_length=9)
+    ced = models.CharField(blank=True, max_length=9)
     lad = models.CharField(blank=True, max_length=9)
     ward = models.CharField(blank=True, max_length=9)
+    parish = models.CharField(blank=True, max_length=9)
     hlthau = models.CharField(blank=True, max_length=9)
     ctry = models.CharField(blank=True, max_length=9)
     rgn = models.CharField(blank=True, max_length=9)
@@ -79,7 +81,6 @@ class AbstractOnsud(models.Model):
     oa11 = models.CharField(blank=True, max_length=9)
     lsoa11 = models.CharField(blank=True, max_length=9)
     msoa11 = models.CharField(blank=True, max_length=9)
-    parish = models.CharField(blank=True, max_length=9)
     wz11 = models.CharField(blank=True, max_length=9)
     ccg = models.CharField(blank=True, max_length=9)
     bua11 = models.CharField(blank=True, max_length=9)
