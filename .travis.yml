@@ -1,0 +1,19 @@
+sudo: false
+dist: trusty
+language: python
+python:
+  - '3.5'
+  - '3.6'
+env:
+  matrix:
+    - DJANGO_VERSION='>=1.11,<1.12'
+    #- DJANGO_VERSION='>=2.0,<2.1'
+install:
+  - pip install --upgrade pipenv
+  - pipenv install --dev
+  - python setup.py install
+  - "pip install Django$DJANGO_VERSION"
+script:
+  - coverage run --source=uk_geo_utils --omit=uk_geo_utils/tests/*.py,uk_geo_utils/migrations/*.py,uk_geo_utils/fixtures/*.py run_tests.py
+after_success:
+  - coveralls
