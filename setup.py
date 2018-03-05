@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import find_packages, setup
 
 
 # allow setup.py to be run from any path
@@ -18,7 +18,7 @@ setup(
     author="chris48s",
     license="MIT",
     url="https://github.com/DemocracyClub/uk-geo-utils",
-    packages=['uk_geo_utils'],
+    packages=find_packages(),
     description='Django app for working with OS Addressbase, ONSUD and ONSPD',
     long_description=_get_description(),
     install_requires=[
