@@ -13,3 +13,6 @@ Pipfile.lock
 
 # test coverage
 .coverage
+
+# compiled docs
+docs/site/
