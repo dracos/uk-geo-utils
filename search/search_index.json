@@ -1,0 +1,94 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "Django UK Geo Utils\n\n\nA django app for geocoding with postcodes or UPRNs\n\n\ndjango-uk-geo-utils\n provides a set models, management commands and helpers for working with\n\n\n\n\nOS AddressBase\n and \nONS UPRN Directory\n\n\nONS Postcode Directory\n\n\n\n\nto simplify the proces of mapping postcodes or UPRNs to grid references and a range of administrative, electoral, and statistical geographies in your django/PostGIS project.",
+            "title": "Home"
+        },
+        {
+            "location": "/#django-uk-geo-utils",
+            "text": "A django app for geocoding with postcodes or UPRNs  django-uk-geo-utils  provides a set models, management commands and helpers for working with   OS AddressBase  and  ONS UPRN Directory  ONS Postcode Directory   to simplify the proces of mapping postcodes or UPRNs to grid references and a range of administrative, electoral, and statistical geographies in your django/PostGIS project.",
+            "title": "Django UK Geo Utils"
+        },
+        {
+            "location": "/installation/",
+            "text": "Installation\n\n\n\n\npip install git+git://github.com/DemocracyClub/uk-geo-utils.git\n\n\nAdd to \nINSTALLED_APPS\n in django settings:\n\n\n\n\nINSTALLED_APPS = [\n    ...\n    'uk_geo_utils',\n]\n\n\n\n\n\n\nApply migrations: \npython manage.py migrate",
+            "title": "Installation"
+        },
+        {
+            "location": "/installation/#installation",
+            "text": "pip install git+git://github.com/DemocracyClub/uk-geo-utils.git  Add to  INSTALLED_APPS  in django settings:   INSTALLED_APPS = [\n    ...\n    'uk_geo_utils',\n]   Apply migrations:  python manage.py migrate",
+            "title": "Installation"
+        },
+        {
+            "location": "/importing_data/",
+            "text": "Importing Data\n\n\ndjango-uk-geo-utils\n is most useful for users of AddressBase. Unfortunately AddressBase is proprietary data so it isn't accessible to everyone. If you have a licence for AddressBase or access via the \nPSMA\n, import AddressBase Standard, ONSUD and ONSPD. If you don't have access to AddressBase, skip straight to ONSPD. You don't need ONSUD.\n\n\nAddressBase Standard\n\n\nOrdnance Survey AddressBase contains UPRNs (Unique Property Reference Number), addresses, and grid references for UK properties. Order a copy of AddressBase Standard and download from the Ordnance Survey FTP. The import is done in 2 stages:\n\n\nFirst we need to do some pre-processing on the data:\n\n\npython manage.py clean_addressbase /path/to/data\n\n\nThen the processed files can be imported:\n\n\npython manage.py import_cleaned_addresses /path/to/data\n\n\nONSUD\n\n\nONS UPRN Directory is the companion dataset to AddressBase and handles mapping UPRNs to a variety of administrative, electoral, and statistical geographies. Grab the latest release from the \nOffice for National Statistics\n, extract and import it:\n\n\npython manage.py import_onsud /path/to/data\n\n\nONSPD\n\n\nONS Postcode Directory maps postcodes to grid references and a variety of administrative, electoral, and statistical geographies. Grab the latest release from the \nOffice for National Statistics\n, extract and import it:\n\n\npython manage.py import_onspd /path/to/data",
+            "title": "Importing Data"
+        },
+        {
+            "location": "/importing_data/#importing-data",
+            "text": "django-uk-geo-utils  is most useful for users of AddressBase. Unfortunately AddressBase is proprietary data so it isn't accessible to everyone. If you have a licence for AddressBase or access via the  PSMA , import AddressBase Standard, ONSUD and ONSPD. If you don't have access to AddressBase, skip straight to ONSPD. You don't need ONSUD.",
+            "title": "Importing Data"
+        },
+        {
+            "location": "/importing_data/#addressbase-standard",
+            "text": "Ordnance Survey AddressBase contains UPRNs (Unique Property Reference Number), addresses, and grid references for UK properties. Order a copy of AddressBase Standard and download from the Ordnance Survey FTP. The import is done in 2 stages:  First we need to do some pre-processing on the data:  python manage.py clean_addressbase /path/to/data  Then the processed files can be imported:  python manage.py import_cleaned_addresses /path/to/data",
+            "title": "AddressBase Standard"
+        },
+        {
+            "location": "/importing_data/#onsud",
+            "text": "ONS UPRN Directory is the companion dataset to AddressBase and handles mapping UPRNs to a variety of administrative, electoral, and statistical geographies. Grab the latest release from the  Office for National Statistics , extract and import it:  python manage.py import_onsud /path/to/data",
+            "title": "ONSUD"
+        },
+        {
+            "location": "/importing_data/#onspd",
+            "text": "ONS Postcode Directory maps postcodes to grid references and a variety of administrative, electoral, and statistical geographies. Grab the latest release from the  Office for National Statistics , extract and import it:  python manage.py import_onspd /path/to/data",
+            "title": "ONSPD"
+        },
+        {
+            "location": "/geocoders/",
+            "text": "Geocoders\n\n\nuk_geo_utils.geocoders.AddressBaseGeocoder\n and \nuk_geo_utils.geocoders.OnspdGeocoder\n provide abstractions for obtaining a grid reference or ONS code based on a postcode or UPRN.\n\n\nPoints\n\n\nAddressBaseGeocoder\n and \nOnspdGeocoder\n support a (postcode) \ncentroid\n property. Additionally \nAddressBaseGeocoder\n supports an additional \nget_point(self, uprn)\n method.\n\n\nExamples:\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>\n>>> g.get_point(\"10010020128\")\n<Point object at 0x000000000000>\n\n\n\n\n>>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>\n\n\n\n\nUPRNs\n\n\nAddressBaseGeocoder\n supports a \nget_uprns()\n method.\n\n\nExample:\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_uprns()\n['10010020128', '10010020129', '100100624432', '100100624433', '100100624434', '100100624435', '100100624436', '100100624437', '100100624438', '100100624439']\n\n\n\n\nONS Codes\n\n\nAddressBaseGeocoder\n and \nOnspdGeocoder\n support a \nget_code()\n method which can be used to access fields or aliases on the ONSPD and ONSUD models based on a postcode or UPRN query.\n\n\n\n\nAddressBaseGeocoder.get_code(self, code_type, uprn=None, strict=False)\n\n\nOnspdGeocoder.get_code(self, code_type)\n\n\n\n\nExamples:\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('ctry', \"10010020128\")\n'W92000004'\n>>> g.get_code('ctry', \"100100624439\")\n'W92000004'\n\n\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('lad')\nuk_geo_utils.geocoders.MultipleCodesException: Postcode SA84DA covers UPRNs in more than one 'lad' area\n>>> g.get_code('lad', \"10010020128\")\n'W06000011'\n>>> g.get_code('lad', \"100100624439\")\n'W06000012'\n>>> g.get_code('lad', \"spoons\")\naddressbase.models.DoesNotExist\n\n\n\n\n>>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('lad')\n'W06000012'",
+            "title": "Geocoders"
+        },
+        {
+            "location": "/geocoders/#geocoders",
+            "text": "uk_geo_utils.geocoders.AddressBaseGeocoder  and  uk_geo_utils.geocoders.OnspdGeocoder  provide abstractions for obtaining a grid reference or ONS code based on a postcode or UPRN.",
+            "title": "Geocoders"
+        },
+        {
+            "location": "/geocoders/#points",
+            "text": "AddressBaseGeocoder  and  OnspdGeocoder  support a (postcode)  centroid  property. Additionally  AddressBaseGeocoder  supports an additional  get_point(self, uprn)  method.  Examples:  >>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>\n>>> g.get_point(\"10010020128\")\n<Point object at 0x000000000000>  >>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>",
+            "title": "Points"
+        },
+        {
+            "location": "/geocoders/#uprns",
+            "text": "AddressBaseGeocoder  supports a  get_uprns()  method.  Example:  >>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_uprns()\n['10010020128', '10010020129', '100100624432', '100100624433', '100100624434', '100100624435', '100100624436', '100100624437', '100100624438', '100100624439']",
+            "title": "UPRNs"
+        },
+        {
+            "location": "/geocoders/#ons-codes",
+            "text": "AddressBaseGeocoder  and  OnspdGeocoder  support a  get_code()  method which can be used to access fields or aliases on the ONSPD and ONSUD models based on a postcode or UPRN query.   AddressBaseGeocoder.get_code(self, code_type, uprn=None, strict=False)  OnspdGeocoder.get_code(self, code_type)   Examples:  >>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('ctry', \"10010020128\")\n'W92000004'\n>>> g.get_code('ctry', \"100100624439\")\n'W92000004'  >>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('lad')\nuk_geo_utils.geocoders.MultipleCodesException: Postcode SA84DA covers UPRNs in more than one 'lad' area\n>>> g.get_code('lad', \"10010020128\")\n'W06000011'\n>>> g.get_code('lad', \"100100624439\")\n'W06000012'\n>>> g.get_code('lad', \"spoons\")\naddressbase.models.DoesNotExist  >>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('lad')\n'W06000012'",
+            "title": "ONS Codes"
+        },
+        {
+            "location": "/extending/",
+            "text": "Extending the models\n\n\nThe \nuk_geo_utils.models.Address\n, \nuk_geo_utils.models.Onsud\n and \nuk_geo_utils.models.Onspd\n models each inherit from an abstract base class (\nuk_geo_utils.models.AbstractAddress\n, \nuk_geo_utils.models.AbstractOnsud\n and \nuk_geo_utils.models.AbstractOnspd\n, respectively)\n\n\nThis allows you to use model inheritance to extend these models in your project (for example, if you need to add additional fields). This offers better performance then using one-to-one relationships on large tables like this that contain millions of rows.\n\n\nIf you extend the base tables, declare keys to your project settings file with your extended model names:\n\n\nADDRESS_MODEL = 'myapp.MyModel'\nONSUD_MODEL = 'myapp.MyModel'\nONSPD_MODEL = 'myapp.MyModel'\n\n\n\n\nThis will allow the \nuk_geo_utils\n management commands, helpers, etc to operate on your extended tables.",
+            "title": "Extending the models"
+        },
+        {
+            "location": "/extending/#extending-the-models",
+            "text": "The  uk_geo_utils.models.Address ,  uk_geo_utils.models.Onsud  and  uk_geo_utils.models.Onspd  models each inherit from an abstract base class ( uk_geo_utils.models.AbstractAddress ,  uk_geo_utils.models.AbstractOnsud  and  uk_geo_utils.models.AbstractOnspd , respectively)  This allows you to use model inheritance to extend these models in your project (for example, if you need to add additional fields). This offers better performance then using one-to-one relationships on large tables like this that contain millions of rows.  If you extend the base tables, declare keys to your project settings file with your extended model names:  ADDRESS_MODEL = 'myapp.MyModel'\nONSUD_MODEL = 'myapp.MyModel'\nONSPD_MODEL = 'myapp.MyModel'  This will allow the  uk_geo_utils  management commands, helpers, etc to operate on your extended tables.",
+            "title": "Extending the models"
+        },
+        {
+            "location": "/licence/",
+            "text": "Licensing\n\n\ndjango-uk-geo-utils\n is made available under the \nMIT licence\n\n\nYour use of Ordnance Survey data should comply with the terms of your \nlicence or mapping agreement\n.\n\n\nYour use of ONS data should comply with \nONS geography licences",
+            "title": "Licensing"
+        },
+        {
+            "location": "/licence/#licensing",
+            "text": "django-uk-geo-utils  is made available under the  MIT licence  Your use of Ordnance Survey data should comply with the terms of your  licence or mapping agreement .  Your use of ONS data should comply with  ONS geography licences",
+            "title": "Licensing"
+        }
+    ]
+}
