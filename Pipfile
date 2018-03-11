@@ -9,6 +9,8 @@ name = "pypi"
 
 coverage = "*"
 python-coveralls = "*"
+mkdocs = "*"
 
 
 [packages]
+
