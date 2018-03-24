@@ -59,11 +59,6 @@ class AbstractOnsudManager(models.GeoManager):
 
 class AbstractOnsud(models.Model):
     uprn = models.CharField(primary_key=True, max_length=12)
-    """
-    Note: this is not a FK to Address because the ONSUD is released quarterly
-    and AddressBase is released every 6 weeks, so these 2 sources won't
-    necessarily match up exactly.
-    """
     ctry_flag = models.CharField(blank=True, max_length=1)
     cty = models.CharField(blank=True, max_length=9)
     ced = models.CharField(blank=True, max_length=9)
