@@ -3,7 +3,9 @@ pages:
     - Home: index.md
     - Installation: installation.md
     - Importing Data: importing_data.md
+    - Postcode: postcode.md
     - Geocoders: geocoders.md
+    - Model Fields and Aliases: models.md
     - Extending the models: extending.md
     - Licensing: licence.md
 theme: readthedocs

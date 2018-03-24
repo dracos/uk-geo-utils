@@ -24,6 +24,17 @@ Examples:
 <Point object at 0x000000000000>
 ```
 
+Geocoder objects may be constructed with a string or a [Postcode object](postcode.md). In either case, whitespace and formatting is ignored:
+
+```python
+>>> from uk_geo_utils.geocoders import OnspdGeocoder
+>>> from uk_geo_utils.helpers import Postcode
+>>> g1 = OnspdGeocoder(Postcode('SA8 4DA'))
+>>> g2 = OnspdGeocoder('sa 8 4  DA')
+>>> g1.centroid == g2.centroid
+True
+```
+
 ## UPRNs
 
 `AddressBaseGeocoder` supports a `get_uprns()` method.
@@ -39,7 +50,7 @@ Example:
 
 ## ONS Codes
 
-`AddressBaseGeocoder` and `OnspdGeocoder` support a `get_code()` method which can be used to access fields or aliases on the ONSPD and ONSUD models based on a postcode or UPRN query.
+`AddressBaseGeocoder` and `OnspdGeocoder` support a `get_code()` method which can be used to access [fields or aliases](models.md) on the ONSPD and ONSUD models based on a postcode or UPRN query.
 
 * `AddressBaseGeocoder.get_code(self, code_type, uprn=None, strict=False)`
 * `OnspdGeocoder.get_code(self, code_type)`
