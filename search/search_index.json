@@ -12,11 +12,21 @@
         },
         {
             "location": "/installation/",
-            "text": "Installation\n\n\n\n\npip install git+git://github.com/DemocracyClub/uk-geo-utils.git\n\n\nAdd to \nINSTALLED_APPS\n in django settings:\n\n\n\n\nINSTALLED_APPS = [\n    ...\n    'uk_geo_utils',\n]\n\n\n\n\n\n\nApply migrations: \npython manage.py migrate",
+            "text": "Installation\n\n\nRequirements\n\n\n\n\nPython 3\n\n\nDjango >= 1.11\n\n\nPostgreSQL, PostGIS\n\n\n\n\nInstallation\n\n\n\n\npip install git+git://github.com/DemocracyClub/uk-geo-utils.git\n\n\nAdd to \nINSTALLED_APPS\n in django settings:\n\n\n\n\nINSTALLED_APPS = [\n    ...\n    'uk_geo_utils',\n]\n\n\n\n\n\n\nApply migrations: \npython manage.py migrate",
             "title": "Installation"
         },
         {
             "location": "/installation/#installation",
+            "text": "",
+            "title": "Installation"
+        },
+        {
+            "location": "/installation/#requirements",
+            "text": "Python 3  Django >= 1.11  PostgreSQL, PostGIS",
+            "title": "Requirements"
+        },
+        {
+            "location": "/installation/#installation_1",
             "text": "pip install git+git://github.com/DemocracyClub/uk-geo-utils.git  Add to  INSTALLED_APPS  in django settings:   INSTALLED_APPS = [\n    ...\n    'uk_geo_utils',\n]   Apply migrations:  python manage.py migrate",
             "title": "Installation"
         },
@@ -46,8 +56,33 @@
             "title": "ONSPD"
         },
         {
+            "location": "/postcode/",
+            "text": "Postcode\n\n\nAn abstraction over a UK postcode.\n\n\nFormatting\n\n\n>>> from uk_geo_utils.helpers import Postcode\n>>> p = Postcode('sw1a1aa')\n>>> p.with_space\n'SW1A 1AA'\n>>> p.without_space\n'SW1A1AA'\n\n\n\n\nComparison\n\n\n>>> from uk_geo_utils.helpers import Postcode\n>>> Postcode('SW1A 1AA') == Postcode('sw 1a1  Aa')\nTrue\n\n\n\n\nValidation\n\n\n>>> from uk_geo_utils.helpers import Postcode\n>>> p = Postcode('foo')\n>>> p = Postcode('foo', validate=True)\nValueError: Postcode must have at least 5 characters",
+            "title": "Postcode"
+        },
+        {
+            "location": "/postcode/#postcode",
+            "text": "An abstraction over a UK postcode.",
+            "title": "Postcode"
+        },
+        {
+            "location": "/postcode/#formatting",
+            "text": ">>> from uk_geo_utils.helpers import Postcode\n>>> p = Postcode('sw1a1aa')\n>>> p.with_space\n'SW1A 1AA'\n>>> p.without_space\n'SW1A1AA'",
+            "title": "Formatting"
+        },
+        {
+            "location": "/postcode/#comparison",
+            "text": ">>> from uk_geo_utils.helpers import Postcode\n>>> Postcode('SW1A 1AA') == Postcode('sw 1a1  Aa')\nTrue",
+            "title": "Comparison"
+        },
+        {
+            "location": "/postcode/#validation",
+            "text": ">>> from uk_geo_utils.helpers import Postcode\n>>> p = Postcode('foo')\n>>> p = Postcode('foo', validate=True)\nValueError: Postcode must have at least 5 characters",
+            "title": "Validation"
+        },
+        {
             "location": "/geocoders/",
-            "text": "Geocoders\n\n\nuk_geo_utils.geocoders.AddressBaseGeocoder\n and \nuk_geo_utils.geocoders.OnspdGeocoder\n provide abstractions for obtaining a grid reference or ONS code based on a postcode or UPRN.\n\n\nPoints\n\n\nAddressBaseGeocoder\n and \nOnspdGeocoder\n support a (postcode) \ncentroid\n property. Additionally \nAddressBaseGeocoder\n supports an additional \nget_point(self, uprn)\n method.\n\n\nExamples:\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>\n>>> g.get_point(\"10010020128\")\n<Point object at 0x000000000000>\n\n\n\n\n>>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>\n\n\n\n\nUPRNs\n\n\nAddressBaseGeocoder\n supports a \nget_uprns()\n method.\n\n\nExample:\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_uprns()\n['10010020128', '10010020129', '100100624432', '100100624433', '100100624434', '100100624435', '100100624436', '100100624437', '100100624438', '100100624439']\n\n\n\n\nONS Codes\n\n\nAddressBaseGeocoder\n and \nOnspdGeocoder\n support a \nget_code()\n method which can be used to access fields or aliases on the ONSPD and ONSUD models based on a postcode or UPRN query.\n\n\n\n\nAddressBaseGeocoder.get_code(self, code_type, uprn=None, strict=False)\n\n\nOnspdGeocoder.get_code(self, code_type)\n\n\n\n\nExamples:\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('ctry', \"10010020128\")\n'W92000004'\n>>> g.get_code('ctry', \"100100624439\")\n'W92000004'\n\n\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('lad')\nuk_geo_utils.geocoders.MultipleCodesException: Postcode SA84DA covers UPRNs in more than one 'lad' area\n>>> g.get_code('lad', \"10010020128\")\n'W06000011'\n>>> g.get_code('lad', \"100100624439\")\n'W06000012'\n>>> g.get_code('lad', \"spoons\")\naddressbase.models.DoesNotExist\n\n\n\n\n>>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('lad')\n'W06000012'",
+            "text": "Geocoders\n\n\nuk_geo_utils.geocoders.AddressBaseGeocoder\n and \nuk_geo_utils.geocoders.OnspdGeocoder\n provide abstractions for obtaining a grid reference or ONS code based on a postcode or UPRN.\n\n\nPoints\n\n\nAddressBaseGeocoder\n and \nOnspdGeocoder\n support a (postcode) \ncentroid\n property. Additionally \nAddressBaseGeocoder\n supports an additional \nget_point(self, uprn)\n method.\n\n\nExamples:\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>\n>>> g.get_point(\"10010020128\")\n<Point object at 0x000000000000>\n\n\n\n\n>>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>\n\n\n\n\nGeocoder objects may be constructed with a string or a \nPostcode object\n. In either case, whitespace and formatting is ignored:\n\n\n>>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> from uk_geo_utils.helpers import Postcode\n>>> g1 = OnspdGeocoder(Postcode('SA8 4DA'))\n>>> g2 = OnspdGeocoder('sa 8 4  DA')\n>>> g1.centroid == g2.centroid\nTrue\n\n\n\n\nUPRNs\n\n\nAddressBaseGeocoder\n supports a \nget_uprns()\n method.\n\n\nExample:\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_uprns()\n['10010020128', '10010020129', '100100624432', '100100624433', '100100624434', '100100624435', '100100624436', '100100624437', '100100624438', '100100624439']\n\n\n\n\nONS Codes\n\n\nAddressBaseGeocoder\n and \nOnspdGeocoder\n support a \nget_code()\n method which can be used to access \nfields or aliases\n on the ONSPD and ONSUD models based on a postcode or UPRN query.\n\n\n\n\nAddressBaseGeocoder.get_code(self, code_type, uprn=None, strict=False)\n\n\nOnspdGeocoder.get_code(self, code_type)\n\n\n\n\nExamples:\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('ctry', \"10010020128\")\n'W92000004'\n>>> g.get_code('ctry', \"100100624439\")\n'W92000004'\n\n\n\n\n>>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('lad')\nuk_geo_utils.geocoders.MultipleCodesException: Postcode SA84DA covers UPRNs in more than one 'lad' area\n>>> g.get_code('lad', \"10010020128\")\n'W06000011'\n>>> g.get_code('lad', \"100100624439\")\n'W06000012'\n>>> g.get_code('lad', \"spoons\")\naddressbase.models.DoesNotExist\n\n\n\n\n>>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('lad')\n'W06000012'",
             "title": "Geocoders"
         },
         {
@@ -57,7 +92,7 @@
         },
         {
             "location": "/geocoders/#points",
-            "text": "AddressBaseGeocoder  and  OnspdGeocoder  support a (postcode)  centroid  property. Additionally  AddressBaseGeocoder  supports an additional  get_point(self, uprn)  method.  Examples:  >>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>\n>>> g.get_point(\"10010020128\")\n<Point object at 0x000000000000>  >>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>",
+            "text": "AddressBaseGeocoder  and  OnspdGeocoder  support a (postcode)  centroid  property. Additionally  AddressBaseGeocoder  supports an additional  get_point(self, uprn)  method.  Examples:  >>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>\n>>> g.get_point(\"10010020128\")\n<Point object at 0x000000000000>  >>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.centroid\n<Point object at 0x000000000000>  Geocoder objects may be constructed with a string or a  Postcode object . In either case, whitespace and formatting is ignored:  >>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> from uk_geo_utils.helpers import Postcode\n>>> g1 = OnspdGeocoder(Postcode('SA8 4DA'))\n>>> g2 = OnspdGeocoder('sa 8 4  DA')\n>>> g1.centroid == g2.centroid\nTrue",
             "title": "Points"
         },
         {
@@ -67,8 +102,38 @@
         },
         {
             "location": "/geocoders/#ons-codes",
-            "text": "AddressBaseGeocoder  and  OnspdGeocoder  support a  get_code()  method which can be used to access fields or aliases on the ONSPD and ONSUD models based on a postcode or UPRN query.   AddressBaseGeocoder.get_code(self, code_type, uprn=None, strict=False)  OnspdGeocoder.get_code(self, code_type)   Examples:  >>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('ctry', \"10010020128\")\n'W92000004'\n>>> g.get_code('ctry', \"100100624439\")\n'W92000004'  >>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('lad')\nuk_geo_utils.geocoders.MultipleCodesException: Postcode SA84DA covers UPRNs in more than one 'lad' area\n>>> g.get_code('lad', \"10010020128\")\n'W06000011'\n>>> g.get_code('lad', \"100100624439\")\n'W06000012'\n>>> g.get_code('lad', \"spoons\")\naddressbase.models.DoesNotExist  >>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('lad')\n'W06000012'",
+            "text": "AddressBaseGeocoder  and  OnspdGeocoder  support a  get_code()  method which can be used to access  fields or aliases  on the ONSPD and ONSUD models based on a postcode or UPRN query.   AddressBaseGeocoder.get_code(self, code_type, uprn=None, strict=False)  OnspdGeocoder.get_code(self, code_type)   Examples:  >>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('ctry', \"10010020128\")\n'W92000004'\n>>> g.get_code('ctry', \"100100624439\")\n'W92000004'  >>> from uk_geo_utils.geocoders import AddressBaseGeocoder\n>>> g = AddressBaseGeocoder('SA8 4DA')\n>>> g.get_code('lad')\nuk_geo_utils.geocoders.MultipleCodesException: Postcode SA84DA covers UPRNs in more than one 'lad' area\n>>> g.get_code('lad', \"10010020128\")\n'W06000011'\n>>> g.get_code('lad', \"100100624439\")\n'W06000012'\n>>> g.get_code('lad', \"spoons\")\naddressbase.models.DoesNotExist  >>> from uk_geo_utils.geocoders import OnspdGeocoder\n>>> g = OnspdGeocoder('SA8 4DA')\n>>> g.get_code('ctry')\n'W92000004'\n>>> g.get_code('lad')\n'W06000012'",
             "title": "ONS Codes"
+        },
+        {
+            "location": "/models/",
+            "text": "Model Fields and Aliases\n\n\nFields\n\n\nONSUD\n\n\nThe \nONSUD model\n provides a django model field for each field in the ONSUD.\n\n\nSee the ONSUD \nrelease notes\n for the description of each field.\n\n\nONSPD\n\n\nThe \nONSPD model\n provides a django model field for each field in the ONSPD.\n\n\nSee the ONSPD \nrelease notes\n for the description of each field.\n\n\nAliases\n\n\nWhere comparable fields exist in the ONSUD and ONSPD with different field names, there are some convenience aliases defined on the ONSPD model. This allows us to reference comparable columns using a consistent name across models:\n\n\n\n\n\n\n\n\nField\n\n\nAlias\n\n\n\n\n\n\n\n\n\n\noscty\n\n\ncty\n\n\n\n\n\n\noslaua\n\n\nlad\n\n\n\n\n\n\nosward\n\n\nward\n\n\n\n\n\n\noshlthau\n\n\nhlthau\n\n\n\n\n\n\nru11ind\n\n\nruc11",
+            "title": "Model Fields and Aliases"
+        },
+        {
+            "location": "/models/#model-fields-and-aliases",
+            "text": "",
+            "title": "Model Fields and Aliases"
+        },
+        {
+            "location": "/models/#fields",
+            "text": "",
+            "title": "Fields"
+        },
+        {
+            "location": "/models/#onsud",
+            "text": "The  ONSUD model  provides a django model field for each field in the ONSUD.  See the ONSUD  release notes  for the description of each field.",
+            "title": "ONSUD"
+        },
+        {
+            "location": "/models/#onspd",
+            "text": "The  ONSPD model  provides a django model field for each field in the ONSPD.  See the ONSPD  release notes  for the description of each field.",
+            "title": "ONSPD"
+        },
+        {
+            "location": "/models/#aliases",
+            "text": "Where comparable fields exist in the ONSUD and ONSPD with different field names, there are some convenience aliases defined on the ONSPD model. This allows us to reference comparable columns using a consistent name across models:     Field  Alias      oscty  cty    oslaua  lad    osward  ward    oshlthau  hlthau    ru11ind  ruc11",
+            "title": "Aliases"
         },
         {
             "location": "/extending/",
