@@ -89,3 +89,21 @@ addressbase.models.DoesNotExist
 >>> g.get_code('lad')
 'W06000012'
 ```
+
+## Exceptions
+
+### CodesNotFoundException
+
+Raised by `AddressBaseGeocoder.get_code()` if no records in the ONSUD are found correspoding to a record in AddressBase. Extends `uk_geo_utils.geocoders.AddressBaseException`.
+
+### MultipleCodesException
+
+Raised by `AddressBaseGeocoder.get_code()` if a single code of the given type can not be assigned to all of the UPRNs described by a postcode. Extends `uk_geo_utils.geocoders.AddressBaseException`.
+
+### NorthernIrelandException
+
+Raised by `AddressBaseGeocoder.__init__()` when attempting to construct an `AddressBaseGeocoder` object with a postcode starting 'BT'. AddressBase does not cover Northern Ireland. Extends `django.core.exceptions.ObjectDoesNotExist`
+
+### AddressBaseNotImportedException
+
+Raised by `AddressBaseGeocoder.__init__()` when attempting to construct an `AddressBaseGeocoder` object if there are no records in the AddressBase table. Extends `django.core.exceptions.ObjectDoesNotExist`
