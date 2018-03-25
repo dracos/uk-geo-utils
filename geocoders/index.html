@@ -82,6 +82,8 @@
         
             <li><a class="toctree-l3" href="#ons-codes">ONS Codes</a></li>
         
+            <li><a class="toctree-l3" href="#exceptions">Exceptions</a></li>
+        
         </ul>
     
 
@@ -208,6 +210,16 @@ addressbase.models.DoesNotExist
 &gt;&gt;&gt; g.get_code('lad')
 'W06000012'
 </code></pre>
+
+<h2 id="exceptions">Exceptions</h2>
+<h3 id="codesnotfoundexception">CodesNotFoundException</h3>
+<p>Raised by <code>AddressBaseGeocoder.get_code()</code> if no records in the ONSUD are found correspoding to a record in AddressBase. Extends <code>uk_geo_utils.geocoders.AddressBaseException</code>.</p>
+<h3 id="multiplecodesexception">MultipleCodesException</h3>
+<p>Raised by <code>AddressBaseGeocoder.get_code()</code> if a single code of the given type can not be assigned to all of the UPRNs described by a postcode. Extends <code>uk_geo_utils.geocoders.AddressBaseException</code>.</p>
+<h3 id="northernirelandexception">NorthernIrelandException</h3>
+<p>Raised by <code>AddressBaseGeocoder.__init__()</code> when attempting to construct an <code>AddressBaseGeocoder</code> object with a postcode starting 'BT'. AddressBase does not cover Northern Ireland. Extends <code>django.core.exceptions.ObjectDoesNotExist</code></p>
+<h3 id="addressbasenotimportedexception">AddressBaseNotImportedException</h3>
+<p>Raised by <code>AddressBaseGeocoder.__init__()</code> when attempting to construct an <code>AddressBaseGeocoder</code> object if there are no records in the AddressBase table. Extends <code>django.core.exceptions.ObjectDoesNotExist</code></p>
               
             </div>
           </div>
