@@ -107,3 +107,11 @@ Raised by `AddressBaseGeocoder.__init__()` when attempting to construct an `Addr
 ### AddressBaseNotImportedException
 
 Raised by `AddressBaseGeocoder.__init__()` when attempting to construct an `AddressBaseGeocoder` object if there are no records in the AddressBase table. Extends `django.core.exceptions.ObjectDoesNotExist`
+
+### OnsudNotImportedException
+
+Raised by `AddressBaseGeocoder.__init__()` when attempting to construct an `AddressBaseGeocoder` object if there are no records in the Onsud table. Extends `django.core.exceptions.ObjectDoesNotExist`
+
+### OnspdNotImportedException
+
+Raised by `OnspdGeocoder.__init__()` when attempting to construct an `OnspdGeocoder` object if there are no records in the Onspd table. Extends `django.core.exceptions.ObjectDoesNotExist`

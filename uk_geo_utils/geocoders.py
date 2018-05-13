@@ -22,6 +22,12 @@ class NorthernIrelandException(ObjectDoesNotExist):
 class AddressBaseNotImportedException(ObjectDoesNotExist):
     pass
 
+class OnsudNotImportedException(ObjectDoesNotExist):
+    pass
+
+class OnspdNotImportedException(ObjectDoesNotExist):
+    pass
+
 
 class BaseGeocoder(metaclass=abc.ABCMeta):
 
@@ -49,9 +55,11 @@ class AddressBaseGeocoder(BaseGeocoder):
         self.onsud_model = get_onsud_model()
         self.address_model = get_address_model()
 
-        # check if there are one or more records in the address table
+        # check the data we need exists
         if not self.address_model.objects.all().exists():
             raise AddressBaseNotImportedException('Address Base table is empty')
+        if not self.onsud_model.objects.all().exists():
+            raise OnsudNotImportedException('ONSUD table is empty')
 
         self.addresses = self.address_model.objects.filter(
             postcode=self.postcode.with_space).order_by('uprn')
@@ -112,6 +120,10 @@ class OnspdGeocoder(BaseGeocoder):
     def __init__(self, postcode):
         self.postcode = Postcode(postcode)
         self.onspd_model = get_onspd_model()
+
+        if not self.onspd_model.objects.all().exists():
+            raise OnspdNotImportedException('ONSPD table is empty')
+
         self.record = self.onspd_model.objects.get(
             pcds=self.postcode.with_space,
             doterm=''

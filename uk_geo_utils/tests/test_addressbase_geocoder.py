@@ -6,6 +6,7 @@ from uk_geo_utils.geocoders import (
     get_address_model,
     get_onsud_model,
     AddressBaseNotImportedException,
+    OnsudNotImportedException,
     CodesNotFoundException,
     MultipleCodesException,
     NorthernIrelandException,
@@ -43,17 +44,26 @@ class AddressBaseGeocoderTest(TestCase):
         'addressbase_geocoder/CC11CC.json',
     ]
 
-    def test_empty_table(self):
+    def test_empty_addressbase_table(self):
         """
         The AddressBase table has no records in it
         """
         get_address_model().objects.all().delete()
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             with self.assertRaises(AddressBaseNotImportedException):
                 addressbase = AddressBaseGeocoder('AA11AA')
 
+    def test_empty_onsud_table(self):
+        """
+        The ONSUD table has no records in it
+        """
+        get_onsud_model().objects.all().delete()
+        with self.assertNumQueries(FuzzyInt(0, 4)):
+            with self.assertRaises(OnsudNotImportedException):
+                addressbase = AddressBaseGeocoder('AA11AA')
+
     def test_northern_ireland(self):
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             with self.assertRaises(NorthernIrelandException):
                 addressbase = AddressBaseGeocoder('BT11AA')
 
@@ -61,7 +71,7 @@ class AddressBaseGeocoderTest(TestCase):
         """
         We can't find any records for the given postcode in the AddressBase table
         """
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             with self.assertRaises(get_address_model().DoesNotExist):
                 addressbase = AddressBaseGeocoder('ZZ1 1ZZ')
 
@@ -70,7 +80,7 @@ class AddressBaseGeocoderTest(TestCase):
         We find records for the given postcode in the AddressBase table
         but there are no corresponding records in the ONSUD for the UPRNs we found
         """
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             addressbase = AddressBaseGeocoder('AA11AA')
 
             with self.assertRaises(CodesNotFoundException):
@@ -88,7 +98,7 @@ class AddressBaseGeocoderTest(TestCase):
         Note that in this case, the ONSUD table does not contain corresponding
         records for *all* of the UPRNs we found, but we accept the result anyway
         """
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             addressbase = AddressBaseGeocoder('bb 1   1B B')  # intentionally spurious whitespace and case
             self.assertEqual('B01000001', addressbase.get_code('lad'))
             self.assertIsInstance(addressbase.centroid, Point)
@@ -102,7 +112,7 @@ class AddressBaseGeocoderTest(TestCase):
         records for *all* of the UPRNs we found, and we are passing strict=True
         so we raise a StrictMatchException
         """
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             addressbase = AddressBaseGeocoder('BB11BB')
             with self.assertRaises(StrictMatchException):
                 addressbase.get_code('lad', strict=True)
@@ -114,7 +124,7 @@ class AddressBaseGeocoderTest(TestCase):
         The UPRNs described by this postcode map to more than one 'lad'
         but they all map to the same 'cty'
         """
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             addressbase = AddressBaseGeocoder('CC1 1CC')
 
             with self.assertRaises(MultipleCodesException):
@@ -125,7 +135,7 @@ class AddressBaseGeocoderTest(TestCase):
             self.assertIsInstance(addressbase.centroid, Point)
 
     def test_invalid_code_type(self):
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             addressbase = AddressBaseGeocoder('CC1 1CC')
             with self.assertRaises(FieldDoesNotExist):
                 result = addressbase.get_code('foo')  # not a real code type
@@ -134,7 +144,7 @@ class AddressBaseGeocoderTest(TestCase):
         """
         valid get_code() by UPRN queries
         """
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             addressbase = AddressBaseGeocoder('CC1 1CC')
             self.assertEqual('B01000001', addressbase.get_code('lad', '00000008'))
             self.assertIsInstance(addressbase.get_point('00000008'), Point)
@@ -145,7 +155,7 @@ class AddressBaseGeocoderTest(TestCase):
         """
         'foo' is not a valid UPRN in our DB
         """
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             addressbase = AddressBaseGeocoder('CC1 1CC')
             with self.assertRaises(get_address_model().DoesNotExist):
                 result = addressbase.get_code('lad', 'foo')
@@ -158,7 +168,7 @@ class AddressBaseGeocoderTest(TestCase):
         but for a different postcode
         than the one we constructed with
         """
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             addressbase = AddressBaseGeocoder('CC1 1CC')
             with self.assertRaises(get_address_model().DoesNotExist):
                 result = addressbase.get_code('lad', '00000001')
@@ -169,7 +179,7 @@ class AddressBaseGeocoderTest(TestCase):
         """
         '00000006' is a valid UPRN in AddressBase but not in ONSUD
         """
-        with self.assertNumQueries(FuzzyInt(0, 3)):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
             addressbase = AddressBaseGeocoder('BB1 1BB')
             with self.assertRaises(get_onsud_model().DoesNotExist):
                 result = addressbase.get_code('lad', '00000006')
