@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 # allow setup.py to be run from any path
 def _get_description():
     try:
-        path = os.path.join(os.path.dirname(__file__), 'README.rst')
+        path = os.path.join(os.path.dirname(__file__), 'README.md')
         with open(path, encoding='utf-8') as f:
             return f.read()
     except IOError:
@@ -21,6 +21,7 @@ setup(
     packages=find_packages(),
     description='Django app for working with OS Addressbase, ONSUD and ONSPD',
     long_description=_get_description(),
+    long_description_content_type="text/markdown",
     install_requires=[
         'Django>=1.11,<2.0',
         'psycopg2-binary',
