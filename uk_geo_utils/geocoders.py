@@ -60,9 +60,9 @@ class AddressBaseGeocoder(BaseGeocoder):
                 'No addresses found for postcode %s' % (self.postcode))
 
         self.uprns = self.onsud_model.objects.filter(
-            uprn__in=self._get_uprns()).order_by('uprn')
+            uprn__in=self.get_uprns()).order_by('uprn')
 
-    def _get_uprns(self):
+    def get_uprns(self):
         return [a.uprn for a in self.addresses]
 
     @property
@@ -86,7 +86,7 @@ class AddressBaseGeocoder(BaseGeocoder):
             raise CodesNotFoundException('Found no records in ONSUD for supplied UPRNs')
         if len(self.addresses) != len(self.uprns):
             if strict:
-                for uprn in self._get_uprns():
+                for uprn in self.get_uprns():
                     try:
                         self.uprns.get_cached(uprn)
                     except self.onsud_model.DoesNotExist:
