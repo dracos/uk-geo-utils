@@ -8,7 +8,7 @@ from uk_geo_utils.management.commands.import_onspd import Command
 
 class OnsudImportTest(TestCase):
 
-    def test_import_onspd(self):
+    def test_import_onspd_valid(self):
         # check table is empty before we start
         self.assertEqual(0, Onspd.objects.count())
 
@@ -23,8 +23,7 @@ class OnsudImportTest(TestCase):
         cmd = Command()
 
         # supress output
-        out = StringIO()
-        cmd.stdout = out
+        cmd.stdout = StringIO()
 
         # import data
         opts = {
@@ -42,3 +41,22 @@ class OnsudImportTest(TestCase):
         # row with invalid grid ref should have NULL location
         im11aa = Onspd.objects.filter(pcds="IM1 1AA")[0]
         self.assertIsNone(im11aa.location)
+
+    def test_import_onspd_file_not_found(self):
+        csv_path = os.path.abspath(
+            os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                '../fixtures/pathdoesnotexist'
+            )
+        )
+
+        cmd = Command()
+
+        # supress output
+        cmd.stdout = StringIO()
+
+        opts = {
+            'path': csv_path,
+        }
+        with self.assertRaises(FileNotFoundError):
+            cmd.handle(**opts)

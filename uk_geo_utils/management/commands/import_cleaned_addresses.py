@@ -15,17 +15,18 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.table_name = get_address_model()._meta.db_table
 
-        cursor = connection.cursor()
-        self.stdout.write("clearing existing data..")
-        cursor.execute("TRUNCATE TABLE %s;" % (self.table_name))
-
         cleaned_file_path = os.path.abspath(os.path.join(
             kwargs['cleaned_ab_path'],
             "addressbase_cleaned.csv"
         ))
 
-        self.stdout.write("importing from %s.." % (cleaned_file_path))
         fp = open(cleaned_file_path, 'r')
+
+        cursor = connection.cursor()
+        self.stdout.write("clearing existing data..")
+        cursor.execute("TRUNCATE TABLE %s;" % (self.table_name))
+
+        self.stdout.write("importing from %s.." % (cleaned_file_path))
         cursor.copy_expert("""
             COPY %s (UPRN,address,postcode,location)
             FROM STDIN (FORMAT CSV, DELIMITER ',', quote '"');

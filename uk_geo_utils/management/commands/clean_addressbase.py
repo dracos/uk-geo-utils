@@ -46,8 +46,12 @@ class Command(BaseCommand):
         self.base_path = os.path.abspath(kwargs['ab_path'])
         out_path = os.path.join(self.base_path, 'addressbase_cleaned.csv')
 
+        files = glob.glob(os.path.join(self.base_path, '*.csv'))
+        if not files:
+            raise FileNotFoundError('No CSV files found in %s' % (self.base_path))
+
         with open(out_path, 'w') as out_file:
-            for csv_path in glob.glob(os.path.join(self.base_path, '*.csv')):
+            for csv_path in files:
                 if csv_path.endswith('cleaned.csv'):
                     continue
                 self.out_csv = csv.DictWriter(out_file, fieldnames=[
@@ -56,7 +60,7 @@ class Command(BaseCommand):
                     'postcode',
                     'location',
                 ])
-                print(csv_path)
+                self.stdout.write(csv_path)
                 self.clean_csv(csv_path)
                 out_file.flush()
 

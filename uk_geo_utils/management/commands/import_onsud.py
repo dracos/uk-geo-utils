@@ -22,12 +22,17 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.table_name = get_onsud_model()._meta.db_table
 
+        glob_str = os.path.join(kwargs['path'], "*.csv")
+        files = glob.glob(glob_str)
+        if not files:
+            raise FileNotFoundError('No CSV files found in %s' % (kwargs['path']))
+
         cursor = connection.cursor()
         self.stdout.write("clearing existing data..")
         cursor.execute("TRUNCATE TABLE %s;" % (self.table_name))
-        glob_str = os.path.join(kwargs['path'], "*.csv")
+
         self.stdout.write("importing from files..")
-        for f in glob.glob(glob_str):
+        for f in files:
             self.stdout.write(f)
             fp = open(f, 'r')
             cursor.copy_expert("""

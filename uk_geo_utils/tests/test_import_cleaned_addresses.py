@@ -7,7 +7,7 @@ from uk_geo_utils.management.commands.import_cleaned_addresses import Command
 
 class CleanedAddressImportTest(TestCase):
 
-    def test_import_onsud(self):
+    def test_import_cleaned_addresses_valid(self):
         # check table is empty before we start
         self.assertEqual(0, Address.objects.count())
 
@@ -22,8 +22,7 @@ class CleanedAddressImportTest(TestCase):
         cmd = Command()
 
         # supress output
-        out = StringIO()
-        cmd.stdout = out
+        cmd.stdout = StringIO()
 
         # import data
         opts = {
@@ -33,3 +32,22 @@ class CleanedAddressImportTest(TestCase):
 
         # ensure all our tasty data has been imported
         self.assertEqual(4, Address.objects.count())
+
+    def test_import_cleaned_addresses_file_not_found(self):
+        csv_path = os.path.abspath(
+            os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                '../fixtures/pathdoesnotexist'
+            )
+        )
+
+        cmd = Command()
+
+        # supress output
+        cmd.stdout = StringIO()
+
+        opts = {
+            'cleaned_ab_path': csv_path,
+        }
+        with self.assertRaises(FileNotFoundError):
+            cmd.handle(**opts)
