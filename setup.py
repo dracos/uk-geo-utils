@@ -25,6 +25,12 @@ setup(
         'Django>=1.11,<2.0',
         'psycopg2-binary',
     ],
+    extras_require={
+        'development': [
+            'python-coveralls',
+            'mkdocs',
+        ]
+    },
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',

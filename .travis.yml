@@ -14,9 +14,8 @@ addons:
     packages:
       - postgresql-9.5-postgis-2.3
 install:
-  - pip install --upgrade pipenv
-  - pipenv install --dev
-  - python setup.py install
+  - pip install --upgrade pip
+  - pip install -e .[development]
   - "pip install Django$DJANGO_VERSION"
 script:
   - coverage run --source=uk_geo_utils --omit=uk_geo_utils/tests/*.py,uk_geo_utils/migrations/*.py,uk_geo_utils/fixtures/*.py run_tests.py
