@@ -19,7 +19,7 @@
     },
     {
         "fields": {
-            "address": "2 Baz Street, Bar Town",
+            "address": "3 Baz Street, Bar Town",
             "postcode": "BB1 1BB",
             "location": "SRID=4326;POINT (-3.8 51.2)"
         },

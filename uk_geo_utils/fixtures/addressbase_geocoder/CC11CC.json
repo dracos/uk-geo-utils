@@ -19,7 +19,7 @@
     },
     {
         "fields": {
-            "address": "2 Qux Street, Bar Town",
+            "address": "3 Qux Street, Bar Town",
             "postcode": "CC1 1CC",
             "location": "SRID=4326;POINT (-2.8 50.2)"
         },
