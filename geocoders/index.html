@@ -80,6 +80,8 @@
         
             <li><a class="toctree-l3" href="#uprns">UPRNs</a></li>
         
+            <li><a class="toctree-l3" href="#addresses">Addresses</a></li>
+        
             <li><a class="toctree-l3" href="#ons-codes">ONS Codes</a></li>
         
             <li><a class="toctree-l3" href="#exceptions">Exceptions</a></li>
@@ -166,12 +168,21 @@ True
 </code></pre>
 
 <h2 id="uprns">UPRNs</h2>
-<p><code>AddressBaseGeocoder</code> supports a <code>get_uprns()</code> method.</p>
+<p><code>AddressBaseGeocoder</code> supports a <code>uprns</code> property.</p>
 <p>Example:</p>
 <pre><code class="python">&gt;&gt;&gt; from uk_geo_utils.geocoders import AddressBaseGeocoder
 &gt;&gt;&gt; g = AddressBaseGeocoder('SA8 4DA')
-&gt;&gt;&gt; g.get_uprns()
+&gt;&gt;&gt; g.uprns
 ['10010020128', '10010020129', '100100624432', '100100624433', '100100624434', '100100624435', '100100624436', '100100624437', '100100624438', '100100624439']
+</code></pre>
+
+<h2 id="addresses">Addresses</h2>
+<p><code>AddressBaseGeocoder</code> supports an <code>addresses</code> property, returning a list of <code>Address</code> objects.</p>
+<p>Example:</p>
+<pre><code class="python">&gt;&gt;&gt; from uk_geo_utils.geocoders import AddressBaseGeocoder
+&gt;&gt;&gt; g = AddressBaseGeocoder('SA8 4DA')
+&gt;&gt;&gt; g.addresses
+[&lt;Address: Address object&gt;, &lt;Address: Address object&gt;, &lt;Address: Address object&gt;, &lt;Address: Address object&gt;, &lt;Address: Address object&gt;, &lt;Address: Address object&gt;, &lt;Address: Address object&gt;, &lt;Address: Address object&gt;, &lt;Address: Address object&gt;, &lt;Address: Address object&gt;]
 </code></pre>
 
 <h2 id="ons-codes">ONS Codes</h2>
