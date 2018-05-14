@@ -12,6 +12,7 @@ from uk_geo_utils.geocoders import (
     NorthernIrelandException,
     StrictMatchException,
 )
+from uk_geo_utils.helpers import AddressSorter
 
 
 class FuzzyInt(int):
@@ -184,3 +185,11 @@ class AddressBaseGeocoderTest(TestCase):
             with self.assertRaises(get_onsud_model().DoesNotExist):
                 result = addressbase.get_code('lad', '00000006')
             self.assertIsInstance(addressbase.get_point('00000006'), Point)
+
+    def test_addresses_property(self):
+        with self.assertNumQueries(FuzzyInt(0, 4)):
+            addressbase = AddressBaseGeocoder('AA1 1AA')
+            addressbase._addresses = addressbase._addresses.order_by('-address')
+            self.assertNotEqual(addressbase._addresses, addressbase.addresses)
+            sorter = AddressSorter(addressbase._addresses)
+            self.assertEqual(addressbase.addresses, sorter.natural_sort())

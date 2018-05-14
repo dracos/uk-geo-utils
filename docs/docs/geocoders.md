@@ -37,15 +37,28 @@ True
 
 ## UPRNs
 
-`AddressBaseGeocoder` supports a `get_uprns()` method.
+`AddressBaseGeocoder` supports a `uprns` property.
 
 Example:
 
 ```python
 >>> from uk_geo_utils.geocoders import AddressBaseGeocoder
 >>> g = AddressBaseGeocoder('SA8 4DA')
->>> g.get_uprns()
+>>> g.uprns
 ['10010020128', '10010020129', '100100624432', '100100624433', '100100624434', '100100624435', '100100624436', '100100624437', '100100624438', '100100624439']
+```
+
+## Addresses
+
+`AddressBaseGeocoder` supports an `addresses` property, returning a list of `Address` objects.
+
+Example:
+
+```python
+>>> from uk_geo_utils.geocoders import AddressBaseGeocoder
+>>> g = AddressBaseGeocoder('SA8 4DA')
+>>> g.addresses
+[<Address: Address object>, <Address: Address object>, <Address: Address object>, <Address: Address object>, <Address: Address object>, <Address: Address object>, <Address: Address object>, <Address: Address object>, <Address: Address object>, <Address: Address object>]
 ```
 
 ## ONS Codes
