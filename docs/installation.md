@@ -8,7 +8,7 @@
 
 ## Installation
 
-* `pip install git+git://github.com/DemocracyClub/uk-geo-utils.git`
+* `pip install uk-geo-utils`
 * Add to `INSTALLED_APPS` in django settings:
 
 ```python
