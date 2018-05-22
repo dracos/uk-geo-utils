@@ -14,11 +14,11 @@ The [ONSPD model](https://github.com/DemocracyClub/uk-geo-utils/blob/17f7b175461
 
 See the ONSPD [release notes](https://www.arcgis.com/sharing/rest/content/items/abff4f6fc0514c53bf02c9b9100d6523/data) for the description of each field.
 
-## Aliases
+### Aliases
 
-Where comparable fields exist in the ONSUD and ONSPD with different field names, there are some convenience aliases defined on the ONSPD model. This allows us to reference comparable columns using a consistent name across models:
+Where comparable fields exist in the ONSUD and ONSPD with different names, there are some convenience aliases defined on the models. This allows us to reference comparable columns using a consistent name across models. The following field names may be used interchangably and called on either model:
 
-| Field    | Alias  |
+| ONSPD    | ONSUD  |
 | ---------|--------|
 | oscty    | cty    |
 | oslaua   | lad    |

@@ -88,6 +88,27 @@ class AbstractOnsud(models.Model):
     imd = models.CharField(blank=True, max_length=5)
     objects = AbstractOnsudManager()
 
+    def _get_oscty(self):
+        return self.cty
+
+    def _get_oslaua(self):
+        return self.lad
+
+    def _get_osward(self):
+        return self.ward
+
+    def _get_oshlthau(self):
+        return self.hlthau
+
+    def _get_ru11ind(self):
+        return self.ruc11
+
+    oscty = property(_get_oscty)
+    oslaua = property(_get_oslaua)
+    osward = property(_get_osward)
+    oshlthau = property(_get_oshlthau)
+    ru11ind = property(_get_ru11ind)
+
     class Meta:
         abstract = True
 
