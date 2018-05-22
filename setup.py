@@ -3,6 +3,8 @@ from setuptools import find_packages, setup
 
 
 # allow setup.py to be run from any path
+os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
+
 def _get_description():
     try:
         path = os.path.join(os.path.dirname(__file__), 'README.md')
@@ -19,6 +21,7 @@ setup(
     license="MIT",
     url="https://github.com/DemocracyClub/uk-geo-utils",
     packages=find_packages(),
+    include_package_data=True,
     description='Django app for working with OS Addressbase, ONSUD and ONSPD',
     long_description=_get_description(),
     long_description_content_type="text/markdown",
@@ -33,6 +36,8 @@ setup(
         ]
     },
     classifiers=[
+        'Framework :: Django',
+        'Framework :: Django :: 1.11',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
