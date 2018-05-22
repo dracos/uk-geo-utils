@@ -147,7 +147,7 @@
         },
         {
             "location": "/models/",
-            "text": "Model Fields and Aliases\n\n\nFields\n\n\nONSUD\n\n\nThe \nONSUD model\n provides a django model field for each field in the ONSUD.\n\n\nSee the ONSUD \nrelease notes\n for the description of each field.\n\n\nONSPD\n\n\nThe \nONSPD model\n provides a django model field for each field in the ONSPD.\n\n\nSee the ONSPD \nrelease notes\n for the description of each field.\n\n\nAliases\n\n\nWhere comparable fields exist in the ONSUD and ONSPD with different field names, there are some convenience aliases defined on the ONSPD model. This allows us to reference comparable columns using a consistent name across models:\n\n\n\n\n\n\n\n\nField\n\n\nAlias\n\n\n\n\n\n\n\n\n\n\noscty\n\n\ncty\n\n\n\n\n\n\noslaua\n\n\nlad\n\n\n\n\n\n\nosward\n\n\nward\n\n\n\n\n\n\noshlthau\n\n\nhlthau\n\n\n\n\n\n\nru11ind\n\n\nruc11",
+            "text": "Model Fields and Aliases\n\n\nFields\n\n\nONSUD\n\n\nThe \nONSUD model\n provides a django model field for each field in the ONSUD.\n\n\nSee the ONSUD \nrelease notes\n for the description of each field.\n\n\nONSPD\n\n\nThe \nONSPD model\n provides a django model field for each field in the ONSPD.\n\n\nSee the ONSPD \nrelease notes\n for the description of each field.\n\n\nAliases\n\n\nWhere comparable fields exist in the ONSUD and ONSPD with different names, there are some convenience aliases defined on the models. This allows us to reference comparable columns using a consistent name across models. The following field names may be used interchangably and called on either model:\n\n\n\n\n\n\n\n\nONSPD\n\n\nONSUD\n\n\n\n\n\n\n\n\n\n\noscty\n\n\ncty\n\n\n\n\n\n\noslaua\n\n\nlad\n\n\n\n\n\n\nosward\n\n\nward\n\n\n\n\n\n\noshlthau\n\n\nhlthau\n\n\n\n\n\n\nru11ind\n\n\nruc11",
             "title": "Model Fields and Aliases"
         },
         {
@@ -172,7 +172,7 @@
         },
         {
             "location": "/models/#aliases",
-            "text": "Where comparable fields exist in the ONSUD and ONSPD with different field names, there are some convenience aliases defined on the ONSPD model. This allows us to reference comparable columns using a consistent name across models:     Field  Alias      oscty  cty    oslaua  lad    osward  ward    oshlthau  hlthau    ru11ind  ruc11",
+            "text": "Where comparable fields exist in the ONSUD and ONSPD with different names, there are some convenience aliases defined on the models. This allows us to reference comparable columns using a consistent name across models. The following field names may be used interchangably and called on either model:     ONSPD  ONSUD      oscty  cty    oslaua  lad    osward  ward    oshlthau  hlthau    ru11ind  ruc11",
             "title": "Aliases"
         },
         {
