@@ -16,4 +16,4 @@ Pipfile.lock
 .coverage
 
 # compiled docs
-docs/site/
+site/
