@@ -12,7 +12,7 @@
         },
         {
             "location": "/installation/",
-            "text": "Installation\n\n\nRequirements\n\n\n\n\nPython 3\n\n\nDjango >= 1.11\n\n\nPostgreSQL, PostGIS\n\n\n\n\nInstallation\n\n\n\n\npip install git+git://github.com/DemocracyClub/uk-geo-utils.git\n\n\nAdd to \nINSTALLED_APPS\n in django settings:\n\n\n\n\nINSTALLED_APPS = [\n    ...\n    'uk_geo_utils',\n]\n\n\n\n\n\n\nApply migrations: \npython manage.py migrate",
+            "text": "Installation\n\n\nRequirements\n\n\n\n\nPython 3\n\n\nDjango >= 1.11\n\n\nPostgreSQL, PostGIS\n\n\n\n\nInstallation\n\n\n\n\npip install uk-geo-utils\n\n\nAdd to \nINSTALLED_APPS\n in django settings:\n\n\n\n\nINSTALLED_APPS = [\n    ...\n    'uk_geo_utils',\n]\n\n\n\n\n\n\nApply migrations: \npython manage.py migrate",
             "title": "Installation"
         },
         {
@@ -27,7 +27,7 @@
         },
         {
             "location": "/installation/#installation_1",
-            "text": "pip install git+git://github.com/DemocracyClub/uk-geo-utils.git  Add to  INSTALLED_APPS  in django settings:   INSTALLED_APPS = [\n    ...\n    'uk_geo_utils',\n]   Apply migrations:  python manage.py migrate",
+            "text": "pip install uk-geo-utils  Add to  INSTALLED_APPS  in django settings:   INSTALLED_APPS = [\n    ...\n    'uk_geo_utils',\n]   Apply migrations:  python manage.py migrate",
             "title": "Installation"
         },
         {
