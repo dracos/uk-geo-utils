@@ -136,6 +136,7 @@ class AbstractOnspd(models.Model):
     nhser = models.CharField(blank=True, max_length=9)
     ctry = models.CharField(blank=True, max_length=9)
     rgn = models.CharField(blank=True, max_length=9)
+    streg = models.CharField(blank=True, max_length=1)
     pcon = models.CharField(blank=True, max_length=9)
     eer = models.CharField(blank=True, max_length=9)
     teclec = models.CharField(blank=True, max_length=9)
@@ -165,6 +166,8 @@ class AbstractOnspd(models.Model):
     lep2 = models.CharField(blank=True, max_length=9)
     pfa = models.CharField(blank=True, max_length=9)
     imd = models.CharField(blank=True, max_length=5)
+    calncv = models.CharField(blank=True, max_length=9)
+    stp = models.CharField(blank=True, max_length=9)
     location = models.PointField(null=True, blank=True)
     objects = models.GeoManager()
 
