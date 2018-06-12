@@ -1,5 +1,9 @@
 # Changelog
 
+## :package: [0.4.0](https://pypi.org/project/uk-geo-utils/0.4.0/) - 2018-06-12
+
+Update for May 2018 ONSPD format changes
+
 ## :package: [0.3.0](https://pypi.org/project/uk-geo-utils/0.3.0/) - 2018-05-22
 
 * Ensure we always throw error if no CSV files found to import
