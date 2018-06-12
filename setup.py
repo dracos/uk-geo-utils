@@ -16,7 +16,7 @@ def _get_description():
 
 setup(
     name='uk_geo_utils',
-    version='0.3.0',
+    version='0.4.0',
     author="chris48s",
     license="MIT",
     url="https://github.com/DemocracyClub/uk-geo-utils",
