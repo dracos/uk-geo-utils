@@ -1,4 +1,8 @@
 from django.contrib.gis.db import models
+try:
+    from django.contrib.gis.db.models.manager import GeoManager
+except ImportError:
+    from django.db.models import Manager as GeoManager
 
 
 class CachedGetMixin:
@@ -28,7 +32,7 @@ class AddressQuerySet(models.QuerySet, CachedGetMixin):
         return poly.centroid
 
 
-class AbstractAddressManager(models.GeoManager):
+class AbstractAddressManager(GeoManager):
     def get_queryset(self):
         return AddressQuerySet(self.model, using=self._db)
 
@@ -52,7 +56,7 @@ class OnsudQuerySet(models.QuerySet, CachedGetMixin):
     pass
 
 
-class AbstractOnsudManager(models.GeoManager):
+class AbstractOnsudManager(GeoManager):
     def get_queryset(self):
         return OnsudQuerySet(self.model, using=self._db)
 
@@ -169,7 +173,7 @@ class AbstractOnspd(models.Model):
     calncv = models.CharField(blank=True, max_length=9)
     stp = models.CharField(blank=True, max_length=9)
     location = models.PointField(null=True, blank=True)
-    objects = models.GeoManager()
+    objects = GeoManager()
 
     def _get_cty(self):
         """
