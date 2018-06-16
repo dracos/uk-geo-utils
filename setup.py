@@ -16,7 +16,7 @@ def _get_description():
 
 setup(
     name='uk_geo_utils',
-    version='0.4.0',
+    version='0.5.0',
     author="chris48s",
     license="MIT",
     url="https://github.com/DemocracyClub/uk-geo-utils",
@@ -38,6 +38,7 @@ setup(
     classifiers=[
         'Framework :: Django',
         'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.0',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
