@@ -1,3 +1,5 @@
+uk_geo_utils/fixtures/addressbase/addressbase_cleaned.csv
+
 # python cache files
 __pycache__/
 *.pyc
