@@ -1,5 +1,9 @@
 # Changelog
 
+## :package: [0.5.0](https://pypi.org/project/uk-geo-utils/0.5.0/) - 2018-06-16
+
+Add support for Django 2.0
+
 ## :package: [0.4.0](https://pypi.org/project/uk-geo-utils/0.4.0/) - 2018-06-12
 
 Update for May 2018 ONSPD format changes
