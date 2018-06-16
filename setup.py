@@ -26,7 +26,7 @@ setup(
     long_description=_get_description(),
     long_description_content_type="text/markdown",
     install_requires=[
-        'Django>=1.11,<2.0',
+        'Django>=1.11,<2.1',
         'psycopg2-binary',
     ],
     extras_require={
