@@ -27,6 +27,7 @@ class OnsudImportTest(TestCase):
         # import data
         opts = {
             'path': csv_path,
+            'transaction': False,
         }
         cmd.handle(**opts)
 
@@ -48,6 +49,7 @@ class OnsudImportTest(TestCase):
 
         opts = {
             'path': csv_path,
+            'transaction': False,
         }
         with self.assertRaises(FileNotFoundError):
             cmd.handle(**opts)

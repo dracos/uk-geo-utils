@@ -1,6 +1,7 @@
 import os
 import glob
 from django.db import connection
+from django.db import transaction
 from django.core.management.base import BaseCommand
 from uk_geo_utils.helpers import get_onsud_model
 
@@ -18,14 +19,31 @@ class Command(BaseCommand):
             'path',
             help='Path to the directory containing the ONSUD CSVs'
         )
+        parser.add_argument(
+            '-t',
+            '--transaction',
+            help='Run the import in a transaction',
+            action='store_true',
+            default=False,
+            dest='transaction'
+        )
 
     def handle(self, *args, **kwargs):
         self.table_name = get_onsud_model()._meta.db_table
+        self.path = kwargs['path']
+        if kwargs['transaction']:
+            with transaction.atomic():
+                self.import_onsud()
+        else:
+            self.import_onsud()
 
-        glob_str = os.path.join(kwargs['path'], "*.csv")
+    def import_onsud(self):
+        self.table_name = get_onsud_model()._meta.db_table
+
+        glob_str = os.path.join(self.path, "*.csv")
         files = glob.glob(glob_str)
         if not files:
-            raise FileNotFoundError('No CSV files found in %s' % (kwargs['path']))
+            raise FileNotFoundError('No CSV files found in %s' % (self.path))
 
         cursor = connection.cursor()
         self.stdout.write("clearing existing data..")

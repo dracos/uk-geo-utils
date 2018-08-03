@@ -27,6 +27,7 @@ class CleanedAddressImportTest(TestCase):
         # import data
         opts = {
             'cleaned_ab_path': csv_path,
+            'transaction': False,
         }
         cmd.handle(**opts)
 
@@ -48,6 +49,7 @@ class CleanedAddressImportTest(TestCase):
 
         opts = {
             'cleaned_ab_path': csv_path,
+            'transaction': False,
         }
         with self.assertRaises(FileNotFoundError):
             cmd.handle(**opts)
