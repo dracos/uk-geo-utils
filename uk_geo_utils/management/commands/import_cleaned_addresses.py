@@ -1,5 +1,6 @@
 import os
 from django.db import connection
+from django.db import transaction
 from django.core.management.base import BaseCommand
 from uk_geo_utils.helpers import get_address_model
 
@@ -12,6 +13,7 @@ class Command(BaseCommand):
             help='The path to the folder containing the cleaned AddressBase CSVs'
         )
 
+    @transaction.atomic
     def handle(self, *args, **kwargs):
         self.table_name = get_address_model()._meta.db_table
 
