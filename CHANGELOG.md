@@ -1,5 +1,9 @@
 # Changelog
 
+## :package: [0.6.0](https://pypi.org/project/uk-geo-utils/0.6.0/) - 2018-09-14
+
+Add optional `--transaction` flag to `import_` commands
+
 ## :package: [0.5.0](https://pypi.org/project/uk-geo-utils/0.5.0/) - 2018-06-16
 
 Add support for Django 2.0
