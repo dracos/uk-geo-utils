@@ -63,7 +63,6 @@ class AbstractOnsudManager(GeoManager):
 
 class AbstractOnsud(models.Model):
     uprn = models.CharField(primary_key=True, max_length=12)
-    ctry_flag = models.CharField(blank=True, max_length=1)
     cty = models.CharField(blank=True, max_length=9)
     ced = models.CharField(blank=True, max_length=9)
     lad = models.CharField(blank=True, max_length=9)
