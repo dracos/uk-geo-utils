@@ -50,17 +50,17 @@ class Command(BaseCommand):
         self.stdout.write("importing from files..")
         for f in files:
             self.stdout.write(f)
-            fp = open(f, 'r')
-            cursor.copy_expert("""
-                COPY %s (
-                pcd, pcd2, pcds, dointr, doterm, oscty, ced, oslaua, osward,
-                parish, usertype, oseast1m, osnrth1m, osgrdind, oshlthau,
-                nhser, ctry, rgn, streg, pcon, eer, teclec, ttwa, pct, nuts,
-                statsward, oa01, casward, park, lsoa01, msoa01, ur01ind,
-                oac01, oa11, lsoa11, msoa11, wz11, ccg, bua11, buasd11,
-                ru11ind, oac11, lat, long, lep1, lep2, pfa, imd, calncv, stp
-                ) FROM STDIN (FORMAT CSV, DELIMITER ',', quote '"', HEADER);
-            """ % (self.table_name), fp)
+            with open(f, 'r') as fp:
+                cursor.copy_expert("""
+                    COPY %s (
+                    pcd, pcd2, pcds, dointr, doterm, oscty, ced, oslaua, osward,
+                    parish, usertype, oseast1m, osnrth1m, osgrdind, oshlthau,
+                    nhser, ctry, rgn, streg, pcon, eer, teclec, ttwa, pct, nuts,
+                    statsward, oa01, casward, park, lsoa01, msoa01, ur01ind,
+                    oac01, oa11, lsoa11, msoa11, wz11, ccg, bua11, buasd11,
+                    ru11ind, oac11, lat, long, lep1, lep2, pfa, imd, calncv, stp
+                    ) FROM STDIN (FORMAT CSV, DELIMITER ',', quote '"', HEADER);
+                """ % (self.table_name), fp)
 
         # turn text lng/lat into a Point() field
         cursor.execute("""

@@ -4,6 +4,7 @@
 
 * Tested on python 3.7
 * Update for Jan 2018 ONSUD format change (ctry_flag column is removed)
+* Fix `ResourceWarning`s
 
 ## :package: [0.6.0](https://pypi.org/project/uk-geo-utils/0.6.0/) - 2018-09-14
 

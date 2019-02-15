@@ -36,16 +36,16 @@ class Command(BaseCommand):
             "addressbase_cleaned.csv"
         ))
 
-        fp = open(cleaned_file_path, 'r')
+        with open(cleaned_file_path, 'r') as fp:
 
-        cursor = connection.cursor()
-        self.stdout.write("clearing existing data..")
-        cursor.execute("TRUNCATE TABLE %s;" % (self.table_name))
+            cursor = connection.cursor()
+            self.stdout.write("clearing existing data..")
+            cursor.execute("TRUNCATE TABLE %s;" % (self.table_name))
 
-        self.stdout.write("importing from %s.." % (cleaned_file_path))
-        cursor.copy_expert("""
-            COPY %s (UPRN,address,postcode,location)
-            FROM STDIN (FORMAT CSV, DELIMITER ',', quote '"');
-        """ % (self.table_name), fp)
+            self.stdout.write("importing from %s.." % (cleaned_file_path))
+            cursor.copy_expert("""
+                COPY %s (UPRN,address,postcode,location)
+                FROM STDIN (FORMAT CSV, DELIMITER ',', quote '"');
+            """ % (self.table_name), fp)
 
         self.stdout.write("...done")
