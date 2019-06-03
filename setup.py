@@ -26,7 +26,7 @@ setup(
     long_description=_get_description(),
     long_description_content_type="text/markdown",
     install_requires=[
-        'Django>=1.11,<2.1',
+        'Django>=1.11,<2.3',
         'psycopg2-binary',
     ],
     extras_require={
@@ -38,7 +38,8 @@ setup(
     classifiers=[
         'Framework :: Django',
         'Framework :: Django :: 1.11',
-        'Framework :: Django :: 2.0',
+        'Framework :: Django :: 2.1',
+        'Framework :: Django :: 2.2',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
