@@ -1,6 +1,11 @@
 # Changelog
 
-## :package: [0.7.0](https://pypi.org/project/uk-geo-utils/0.7.0/) - 2019-11-15
+## :package: [0.8.0](https://pypi.org/project/uk-geo-utils/0.8.0/) - 2019-06-03
+
+* Add support for django 2.1, 2.2
+* Drop support for django 2.0
+
+## :package: [0.7.0](https://pypi.org/project/uk-geo-utils/0.7.0/) - 2019-02-15
 
 * Tested on python 3.7
 * Update for Jan 2019 ONSUD format change (ctry_flag column is removed)
