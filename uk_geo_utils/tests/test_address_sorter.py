@@ -2,10 +2,10 @@ from collections import namedtuple
 from django.test import TestCase
 from uk_geo_utils.helpers import AddressSorter
 
-Address = namedtuple('Address', ['id', 'address'])
+Address = namedtuple("Address", ["id", "address"])
+
 
 class AddressSorterTest(TestCase):
-
     def test_numeric_order(self):
         # Addresses should sort in numeric order, not string order
         in_list = [
@@ -103,7 +103,9 @@ class AddressSorterTest(TestCase):
         # Prefixed numbers (e.g: flats) should sort by number
         in_list = [
             Address(id=1, address="Flat 10  Knapton House North Walsham Road"),
-            Address(id=2, address="Gardeners Cottage   Knapton House North Walsham Road"),
+            Address(
+                id=2, address="Gardeners Cottage   Knapton House North Walsham Road"
+            ),
             Address(id=3, address="Old Coach House North Walsham Road"),
             Address(id=4, address="Flat 1  Knapton House North Walsham Road"),
             Address(id=5, address="Flat 2  Knapton House North Walsham Road"),
@@ -113,7 +115,9 @@ class AddressSorterTest(TestCase):
             Address(id=4, address="Flat 1  Knapton House North Walsham Road"),
             Address(id=5, address="Flat 2  Knapton House North Walsham Road"),
             Address(id=1, address="Flat 10  Knapton House North Walsham Road"),
-            Address(id=2, address="Gardeners Cottage   Knapton House North Walsham Road"),
+            Address(
+                id=2, address="Gardeners Cottage   Knapton House North Walsham Road"
+            ),
             Address(id=3, address="Old Coach House North Walsham Road"),
         ]
 

@@ -7,24 +7,22 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('uk_geo_utils', '0005_onsud_ced'),
-    ]
+    dependencies = [("uk_geo_utils", "0005_onsud_ced")]
 
     operations = [
         migrations.AddField(
-            model_name='onspd',
-            name='calncv',
+            model_name="onspd",
+            name="calncv",
             field=models.CharField(blank=True, max_length=9),
         ),
         migrations.AddField(
-            model_name='onspd',
-            name='stp',
+            model_name="onspd",
+            name="stp",
             field=models.CharField(blank=True, max_length=9),
         ),
         migrations.AddField(
-            model_name='onspd',
-            name='streg',
+            model_name="onspd",
+            name="streg",
             field=models.CharField(blank=True, max_length=1),
         ),
     ]

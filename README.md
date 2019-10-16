@@ -10,6 +10,7 @@ Django app for working with OS AddressBase, ONSUD and ONSPD
 ![License](https://img.shields.io/pypi/l/uk-geo-utils.svg)
 ![Python Support](https://img.shields.io/pypi/pyversions/uk-geo-utils.svg)
 ![Django Support](https://img.shields.io/pypi/djversions/uk-geo-utils.svg)
+![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
 
 * [Documentation](https://democracyclub.github.io/uk-geo-utils/)

@@ -13,22 +13,20 @@ if not settings.configured:
     settings.configure(
         DEBUG=True,
         DATABASES={
-            'default': {
-                'ENGINE': 'django.contrib.gis.db.backends.postgis',
-                'NAME': 'test',
-                'USER': 'postgres',
-                'PASSWORD': '',
-                'HOST': '',
-                'PORT': '',
+            "default": {
+                "ENGINE": "django.contrib.gis.db.backends.postgis",
+                "NAME": "test",
+                "USER": "postgres",
+                "PASSWORD": "",
+                "HOST": "",
+                "PORT": "",
             }
         },
-        INSTALLED_APPS=(
-            'uk_geo_utils',
-        ),
+        INSTALLED_APPS=("uk_geo_utils",),
     )
 
 django.setup()
 TestRunner = get_runner(settings)
 test_runner = TestRunner(verbosity=1, interactive=True, failfast=False)
-failures = test_runner.run_tests(['uk_geo_utils', ])
+failures = test_runner.run_tests(["uk_geo_utils"])
 sys.exit(failures)

@@ -7,14 +7,12 @@ from uk_geo_utils.management.commands.clean_addressbase import Command
 
 
 class CleanAddressesTest(TestCase):
-
     def test_clean_addresses_valid(self):
 
         # path to files we're going to process
         csv_path = os.path.abspath(
             os.path.join(
-                os.path.dirname(os.path.abspath(__file__)),
-                '../fixtures/addressbase'
+                os.path.dirname(os.path.abspath(__file__)), "../fixtures/addressbase"
             )
         )
 
@@ -24,15 +22,13 @@ class CleanAddressesTest(TestCase):
         cmd.stdout = StringIO()
 
         # import data
-        opts = {
-            'ab_path': csv_path,
-        }
+        opts = {"ab_path": csv_path}
         cmd.handle(**opts)
 
         expected_outfile = os.path.abspath(
             os.path.join(
                 os.path.dirname(os.path.abspath(__file__)),
-                '../fixtures/addressbase/addressbase_cleaned.csv'
+                "../fixtures/addressbase/addressbase_cleaned.csv",
             )
         )
 
@@ -46,16 +42,16 @@ class CleanAddressesTest(TestCase):
             reader = csv.reader(csvfile)
             for row in reader:
                 self.assertEqual(4, len(row))
-                self.assertTrue(row[0].startswith('1000000000'))
-                self.assertTrue(re.match(
-                    r'SRID=4326;POINT\(-?\d*.?\d+ -?\d*.?\d+\)', row[3])
+                self.assertTrue(row[0].startswith("1000000000"))
+                self.assertTrue(
+                    re.match(r"SRID=4326;POINT\(-?\d*.?\d+ -?\d*.?\d+\)", row[3])
                 )
 
     def test_clean_addresses_file_not_found(self):
         csv_path = os.path.abspath(
             os.path.join(
                 os.path.dirname(os.path.abspath(__file__)),
-                '../fixtures/pathdoesnotexist'
+                "../fixtures/pathdoesnotexist",
             )
         )
 
@@ -64,8 +60,6 @@ class CleanAddressesTest(TestCase):
         # supress output
         cmd.stdout = StringIO()
 
-        opts = {
-            'ab_path': csv_path,
-        }
+        opts = {"ab_path": csv_path}
         with self.assertRaises(FileNotFoundError):
             cmd.handle(**opts)

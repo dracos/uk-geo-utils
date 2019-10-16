@@ -7,14 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('uk_geo_utils', '0004_auto_20180228_1553'),
-    ]
+    dependencies = [("uk_geo_utils", "0004_auto_20180228_1553")]
 
     operations = [
         migrations.AddField(
-            model_name='onsud',
-            name='ced',
+            model_name="onsud",
+            name="ced",
             field=models.CharField(blank=True, max_length=9),
-        ),
+        )
     ]

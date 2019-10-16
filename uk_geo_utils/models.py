@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models
+
 try:
     from django.contrib.gis.db.models.manager import GeoManager
 except ImportError:
@@ -6,7 +7,6 @@ except ImportError:
 
 
 class CachedGetMixin:
-
     def get_cached(self, pk):
         for record in self:
             if record.pk == pk:
@@ -15,7 +15,6 @@ class CachedGetMixin:
 
 
 class AddressQuerySet(models.QuerySet, CachedGetMixin):
-
     @property
     def centroid(self):
         if not self:

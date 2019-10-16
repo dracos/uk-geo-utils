@@ -3,7 +3,7 @@ from uk_geo_utils.models import Address
 
 
 class CentroidTest(TestCase):
-    fixtures = ['test_centroid.json']
+    fixtures = ["test_centroid.json"]
 
     def test_centroid_one_point(self):
         qs = Address.objects.filter(pk=1)
@@ -20,12 +20,10 @@ class CentroidTest(TestCase):
         # when we're dealing with points that are very close together like
         # this, they should be really really close to straight-line averages
         self.assertAlmostEqual(
-            (0.7208994610313337 + 0.7225083308451804)/2,
-            qs.centroid.x
+            (0.7208994610313337 + 0.7225083308451804) / 2, qs.centroid.x
         )
         self.assertAlmostEqual(
-            (52.0965737442737833 + 52.0975051994085803)/2,
-            qs.centroid.y
+            (52.0965737442737833 + 52.0975051994085803) / 2, qs.centroid.y
         )
 
     def test_centroid_three_points(self):

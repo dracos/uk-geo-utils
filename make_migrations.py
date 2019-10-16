@@ -4,12 +4,7 @@ from django.core.management import call_command
 
 
 if not settings.configured:
-    settings.configure(
-        DEBUG=True,
-        INSTALLED_APPS=(
-            'uk_geo_utils',
-        ),
-    )
+    settings.configure(DEBUG=True, INSTALLED_APPS=("uk_geo_utils",))
 
 django.setup()
-call_command('makemigrations', 'uk_geo_utils')
+call_command("makemigrations", "uk_geo_utils")

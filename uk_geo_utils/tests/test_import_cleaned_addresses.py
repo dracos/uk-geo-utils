@@ -6,7 +6,6 @@ from uk_geo_utils.management.commands.import_cleaned_addresses import Command
 
 
 class CleanedAddressImportTest(TestCase):
-
     def test_import_cleaned_addresses_valid(self):
         # check table is empty before we start
         self.assertEqual(0, Address.objects.count())
@@ -15,7 +14,7 @@ class CleanedAddressImportTest(TestCase):
         csv_path = os.path.abspath(
             os.path.join(
                 os.path.dirname(os.path.abspath(__file__)),
-                '../fixtures/cleaned_addresses'
+                "../fixtures/cleaned_addresses",
             )
         )
 
@@ -25,10 +24,7 @@ class CleanedAddressImportTest(TestCase):
         cmd.stdout = StringIO()
 
         # import data
-        opts = {
-            'cleaned_ab_path': csv_path,
-            'transaction': False,
-        }
+        opts = {"cleaned_ab_path": csv_path, "transaction": False}
         cmd.handle(**opts)
 
         # ensure all our tasty data has been imported
@@ -38,7 +34,7 @@ class CleanedAddressImportTest(TestCase):
         csv_path = os.path.abspath(
             os.path.join(
                 os.path.dirname(os.path.abspath(__file__)),
-                '../fixtures/pathdoesnotexist'
+                "../fixtures/pathdoesnotexist",
             )
         )
 
@@ -47,9 +43,6 @@ class CleanedAddressImportTest(TestCase):
         # supress output
         cmd.stdout = StringIO()
 
-        opts = {
-            'cleaned_ab_path': csv_path,
-            'transaction': False,
-        }
+        opts = {"cleaned_ab_path": csv_path, "transaction": False}
         with self.assertRaises(FileNotFoundError):
             cmd.handle(**opts)

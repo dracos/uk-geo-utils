@@ -5,24 +5,26 @@ from django.conf import settings
 
 def get_model(const, default):
     model_str = getattr(settings, const, default)
-    if not re.match('\w+\.\w+', model_str):
+    if not re.match("\w+\.\w+", model_str):
         raise LookupError("%s setting must be of the form 'app.Model'" % (const))
-    return apps.get_model(*model_str.split('.'))
+    return apps.get_model(*model_str.split("."))
+
 
 def get_address_model():
-    return get_model('ADDRESS_MODEL', 'uk_geo_utils.Address')
+    return get_model("ADDRESS_MODEL", "uk_geo_utils.Address")
+
 
 def get_onsud_model():
-    return get_model('ONSUD_MODEL', 'uk_geo_utils.Onsud')
+    return get_model("ONSUD_MODEL", "uk_geo_utils.Onsud")
+
 
 def get_onspd_model():
-    return get_model('ONSPD_MODEL', 'uk_geo_utils.Onspd')
+    return get_model("ONSPD_MODEL", "uk_geo_utils.Onspd")
 
 
 class Postcode:
-
     def __init__(self, postcode, validate=False):
-        self.postcode = re.sub('[^A-Z0-9]', '', str(postcode).upper())
+        self.postcode = re.sub("[^A-Z0-9]", "", str(postcode).upper())
         if validate and len(str(self.postcode)) < 5:
             raise ValueError("Postcode must have at least 5 characters")
 
@@ -30,19 +32,21 @@ class Postcode:
         return self.without_space
 
     def __eq__(self, other):
-        return type(self) == Postcode and\
-            type(other) == Postcode and\
-            self.without_space == other.without_space
+        return (
+            type(self) == Postcode
+            and type(other) == Postcode
+            and self.without_space == other.without_space
+        )
 
     @property
     def territory(self):
-        if self.postcode[:2] == 'BT':
-            return 'NI'
-        return 'GB'
+        if self.postcode[:2] == "BT":
+            return "NI"
+        return "GB"
 
     @property
     def with_space(self):
-        return self.postcode[:-3] + ' ' + self.postcode[-3:]
+        return self.postcode[:-3] + " " + self.postcode[-3:]
 
     @property
     def without_space(self):
@@ -50,21 +54,20 @@ class Postcode:
 
 
 class AddressFormatter:
-
     def __init__(
-            self,
-            organisation_name,
-            department_name,
-            po_box_number,
-            sub_building_name,
-            building_name,
-            building_number,
-            dependent_thoroughfare,
-            thoroughfare,
-            post_town,
-            double_dependent_locality,
-            dependent_locality,
-            ):
+        self,
+        organisation_name,
+        department_name,
+        po_box_number,
+        sub_building_name,
+        building_name,
+        building_number,
+        dependent_thoroughfare,
+        thoroughfare,
+        post_town,
+        double_dependent_locality,
+        dependent_locality,
+    ):
         """one to one mapping."""
         self.organisation_name = organisation_name
         self.department_name = department_name
@@ -94,16 +97,16 @@ class AddressFormatter:
         if self.department_name:
             self.address_label.append(self.department_name)
         if self.po_box_number:
-            self.address_label.append('PO Box ' + self.po_box_number)
+            self.address_label.append("PO Box " + self.po_box_number)
 
         elements = [
-                self.sub_building_name,
-                self.building_name,
-                self.building_number,
-                self.dependent_thoroughfare,
-                self.thoroughfare,
-                self.double_dependent_locality,
-                self.dependent_locality,
+            self.sub_building_name,
+            self.building_name,
+            self.building_number,
+            self.dependent_thoroughfare,
+            self.thoroughfare,
+            self.double_dependent_locality,
+            self.dependent_locality,
         ]
 
         for element in elements:
@@ -113,7 +116,7 @@ class AddressFormatter:
         # pad label to length of 7 if not already
         if len(self.address_label) < 7:
             for i in range(7 - len(self.address_label)):
-                self.address_label.append('')
+                self.address_label.append("")
 
         # finally, add post town
         self.address_label[5] = self.post_town
@@ -136,7 +139,12 @@ class AddressFormatter:
         """
         if element[0].isdigit() and element[-1].isdigit():
             return True
-        if len(element) > 1 and element[0].isdigit() and element[-2].isdigit() and element[-1].isalpha():
+        if (
+            len(element) > 1
+            and element[0].isdigit()
+            and element[-2].isdigit()
+            and element[-1].isalpha()
+        ):
             return True
         if len(element) == 1 and element.isalpha():
             return True
@@ -149,15 +157,16 @@ class AddressFormatter:
         existing last element fulfils the exception rule, in which case the
         element will be concatenated onto the final list member.
         """
-        if len(self.address_label) > 0\
-                and self._is_exception_rule(self.address_label[-1]):
-            self.address_label[-1] += (' ' + element)
+        if len(self.address_label) > 0 and self._is_exception_rule(
+            self.address_label[-1]
+        ):
+            self.address_label[-1] += " " + element
         else:
             self.address_label.append(element)
 
     def __str__(self):
         """Return the label form of the address."""
-        return ','.join(self.generate_address_label())
+        return ",".join(self.generate_address_label())
 
 
 class AddressSorter:
@@ -175,13 +184,18 @@ class AddressSorter:
     def alphanum_key(self, tup):
         # split the desired component of tup (defined by key function)
         # into a listof numeric and text components
-        return [ self.convert(c) for c in filter(None, re.split('([0-9]+)', tup[1])) ]
+        return [self.convert(c) for c in filter(None, re.split("([0-9]+)", tup[1]))]
 
     def swap_fields(self, item):
         lst = self.alphanum_key(item)
         # swap things about so we can sort by street name, house number
         # instead of house number, street name
-        if len(lst) > 1 and isinstance(lst[0], int) and isinstance(lst[1], str) and (lst[1][0].isspace() or lst[1][0] == ','):
+        if (
+            len(lst) > 1
+            and isinstance(lst[0], int)
+            and isinstance(lst[1], str)
+            and (lst[1][0].isspace() or lst[1][0] == ",")
+        ):
             lst[0], lst[1] = lst[1], lst[0]
         if len(lst) > 1 and isinstance(lst[0], int) and isinstance(lst[1], int):
             lst[0], lst[1] = lst[1], lst[0]
@@ -192,6 +206,6 @@ class AddressSorter:
     def natural_sort(self):
         sorted_list = sorted(
             [(address, address.address) for address in self.addresses],
-            key=self.swap_fields
+            key=self.swap_fields,
         )
         return [address[0] for address in sorted_list]

@@ -6,7 +6,6 @@ from uk_geo_utils.management.commands.import_onsud import Command
 
 
 class OnsudImportTest(TestCase):
-
     def test_import_onsud_valid(self):
         # check table is empty before we start
         self.assertEqual(0, Onsud.objects.count())
@@ -14,8 +13,7 @@ class OnsudImportTest(TestCase):
         # path to file we're going to import
         csv_path = os.path.abspath(
             os.path.join(
-                os.path.dirname(os.path.abspath(__file__)),
-                '../fixtures/onsud'
+                os.path.dirname(os.path.abspath(__file__)), "../fixtures/onsud"
             )
         )
 
@@ -25,10 +23,7 @@ class OnsudImportTest(TestCase):
         cmd.stdout = StringIO()
 
         # import data
-        opts = {
-            'path': csv_path,
-            'transaction': False,
-        }
+        opts = {"path": csv_path, "transaction": False}
         cmd.handle(**opts)
 
         # ensure all our tasty data has been imported
@@ -38,7 +33,7 @@ class OnsudImportTest(TestCase):
         csv_path = os.path.abspath(
             os.path.join(
                 os.path.dirname(os.path.abspath(__file__)),
-                '../fixtures/pathdoesnotexist'
+                "../fixtures/pathdoesnotexist",
             )
         )
 
@@ -47,9 +42,6 @@ class OnsudImportTest(TestCase):
         # supress output
         cmd.stdout = StringIO()
 
-        opts = {
-            'path': csv_path,
-            'transaction': False,
-        }
+        opts = {"path": csv_path, "transaction": False}
         with self.assertRaises(FileNotFoundError):
             cmd.handle(**opts)
