@@ -1,5 +1,9 @@
 # Changelog
 
+## :package: [0.8.1](https://pypi.org/project/uk-geo-utils/0.8.1/) - 2019-10-16
+
+Tested on Python 3.8
+
 ## :package: [0.8.0](https://pypi.org/project/uk-geo-utils/0.8.0/) - 2019-06-03
 
 * Add support for django 2.1, 2.2
