@@ -27,7 +27,7 @@ setup(
     long_description=_get_description(),
     long_description_content_type="text/markdown",
     install_requires=["Django>=1.11,<2.3", "psycopg2-binary"],
-    extras_require={"development": ["python-coveralls", "mkdocs"]},
+    extras_require={"development": ["coveralls", "mkdocs"]},
     classifiers=[
         "Framework :: Django",
         "Framework :: Django :: 1.11",
