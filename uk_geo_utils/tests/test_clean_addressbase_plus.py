@@ -42,7 +42,7 @@ class CleanAddressesTest(TestCase):
         with open(expected_outfile) as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
-                self.assertEqual(4, len(row))
+                self.assertEqual(5, len(row))
                 self.assertTrue(row[0].startswith("1000000000"))
                 self.assertTrue(
                     re.match(r"SRID=4326;POINT\(-?\d*.?\d+ -?\d*.?\d+\)", row[3])

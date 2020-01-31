@@ -103,7 +103,14 @@ class Command(BaseCommand):
                 if csv_path.endswith("cleaned.csv"):
                     continue
                 self.out_csv = csv.DictWriter(
-                    out_file, fieldnames=["UPRN", "address", "postcode", "location"]
+                    out_file,
+                    fieldnames=[
+                        "UPRN",
+                        "address",
+                        "postcode",
+                        "location",
+                        "addressbase_postal",
+                    ],
                 )
                 self.stdout.write(csv_path)
                 self.clean_csv(csv_path)
@@ -177,4 +184,5 @@ class Command(BaseCommand):
         data["location"] = "SRID=4326;POINT({} {})".format(
             line["LONGITUDE"], line["LATITUDE"]
         )
+        data["addressbase_postal"] = line["ADDRESSBASE_POSTAL"]
         return data

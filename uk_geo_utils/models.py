@@ -41,6 +41,7 @@ class AbstractAddress(models.Model):
     address = models.TextField(blank=True)
     postcode = models.CharField(blank=True, max_length=15, db_index=True)
     location = models.PointField(null=True, blank=True)
+    addressbase_postal = models.CharField(blank=False, max_length=1)
     objects = AbstractAddressManager()
 
     class Meta:

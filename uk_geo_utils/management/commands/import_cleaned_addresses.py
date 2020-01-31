@@ -43,7 +43,7 @@ class Command(BaseCommand):
             self.stdout.write("importing from %s.." % (cleaned_file_path))
             cursor.copy_expert(
                 """
-                COPY %s (UPRN,address,postcode,location)
+                COPY %s (UPRN,address,postcode,location,addressbase_postal)
                 FROM STDIN (FORMAT CSV, DELIMITER ',', quote '"');
             """
                 % (self.table_name),
