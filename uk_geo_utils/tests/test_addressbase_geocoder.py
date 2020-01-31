@@ -79,7 +79,7 @@ class AddressBaseGeocoderTest(TestCase):
         We find records for the given postcode in the AddressBase table
         but there are no corresponding records in the ONSUD for the UPRNs we found
         """
-        with self.assertNumQueries(FuzzyInt(0, 4)):
+        with self.assertNumQueries(FuzzyInt(0, 5)):
             addressbase = AddressBaseGeocoder("AA11AA")
 
             with self.assertRaises(CodesNotFoundException):
@@ -97,7 +97,7 @@ class AddressBaseGeocoderTest(TestCase):
         Note that in this case, the ONSUD table does not contain corresponding
         records for *all* of the UPRNs we found, but we accept the result anyway
         """
-        with self.assertNumQueries(FuzzyInt(0, 4)):
+        with self.assertNumQueries(FuzzyInt(0, 5)):
             addressbase = AddressBaseGeocoder(
                 "bb 1   1B B"
             )  # intentionally spurious whitespace and case
@@ -125,7 +125,7 @@ class AddressBaseGeocoderTest(TestCase):
         The UPRNs described by this postcode map to more than one 'lad'
         but they all map to the same 'cty'
         """
-        with self.assertNumQueries(FuzzyInt(0, 4)):
+        with self.assertNumQueries(FuzzyInt(0, 5)):
             addressbase = AddressBaseGeocoder("CC1 1CC")
 
             with self.assertRaises(MultipleCodesException):

@@ -89,6 +89,9 @@ class AddressBaseGeocoder(BaseGeocoder):
 
     @property
     def centroid(self):
+        type_d_addresses = self._addresses.filter(addressbase_postal="D")
+        if len(type_d_addresses) > 0:
+            return type_d_addresses.centroid
         return self._addresses.centroid
 
     @property
