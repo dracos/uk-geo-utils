@@ -1,4 +1,5 @@
-uk_geo_utils/fixtures/addressbase/addressbase_cleaned.csv
+uk_geo_utils/fixtures/addressbase_standard/addressbase_cleaned.csv
+uk_geo_utils/fixtures/addressbase_plus/addressbase_cleaned.csv
 
 # python cache files
 __pycache__/

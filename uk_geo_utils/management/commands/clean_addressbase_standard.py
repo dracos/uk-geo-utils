@@ -1,7 +1,7 @@
 import csv
 import os
 import glob
-from uk_geo_utils.helpers import AddressFormatter
+from uk_geo_utils.helpers import PAFAddressFormatter
 from django.core.management.base import BaseCommand
 
 
@@ -84,7 +84,7 @@ class Command(BaseCommand):
             "POST_TOWN",
         ]
         kwargs = {k.lower(): line[k] for k in line if k in address_fields}
-        return AddressFormatter(**kwargs).generate_address_label()
+        return PAFAddressFormatter(**kwargs).generate_address_label()
 
     def clean_output_line(self, line):
         data = {}

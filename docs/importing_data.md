@@ -2,17 +2,15 @@
 
 `django-uk-geo-utils` is most useful for users of AddressBase. Unfortunately AddressBase is proprietary data so it isn't accessible to everyone. If you have a licence for AddressBase or access via the [PSMA](https://www.ordnancesurvey.co.uk/business-and-government/public-sector/mapping-agreements/public-sector-mapping-agreement.html), import AddressBase Standard, ONSUD and ONSPD. If you don't have access to AddressBase, skip straight to ONSPD. You don't need ONSUD.
 
-## AddressBase Standard
+## AddressBase
 
-Ordnance Survey AddressBase contains UPRNs (Unique Property Reference Number), addresses, and grid references for UK properties. Order a copy of AddressBase Standard and download from the Ordnance Survey FTP. The import is done in 2 stages:
+Ordnance Survey AddressBase contains UPRNs (Unique Property Reference Number), addresses, and grid references for UK properties. Order a copy of AddressBase and download from the Ordnance Survey website/FTP. The import is done in 2 stages:
 
-First we need to do some pre-processing on the data:
+* First we need to do some pre-processing on the data.
+    * For AddressBase Standard: `python manage.py clean_addressbase_standard /path/to/data`
+    * For AddressBase Plus: `python manage.py clean_addressbase_plus /path/to/data`
+* Then the processed files can be imported: `python manage.py import_cleaned_addresses /path/to/data`
 
-`python manage.py clean_addressbase /path/to/data`
-
-Then the processed files can be imported:
-
-`python manage.py import_cleaned_addresses /path/to/data`
 
 ## ONSUD
 
