@@ -66,14 +66,14 @@ class Command(BaseCommand):
                 self.clean_csv(csv_path)
                 out_file.flush()
 
-    def line_filer(self, csv_path):
+    def line_filter(self, csv_path):
         with open(csv_path) as csv_file:
             for line in csv.DictReader(csv_file, fieldnames=self.fieldnames):
                 # Do any filtering we might need to do here
                 yield line
 
     def clean_csv(self, csv_path):
-        for line in self.line_filer(csv_path):
+        for line in self.line_filter(csv_path):
             self.out_csv.writerow(self.clean_output_line(line))
 
     def clean_address(self, line):
