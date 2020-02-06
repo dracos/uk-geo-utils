@@ -1,10 +1,10 @@
 from django.test import TestCase
-from uk_geo_utils.helpers import AddressFormatter
+from uk_geo_utils.helpers import PAFAddressFormatter
 
 
-class AddressFormatterTest(TestCase):
+class PAFAddressFormatterTest(TestCase):
     def test_common_address(self):
-        af = AddressFormatter(
+        af = PAFAddressFormatter(
             organisation_name="",
             department_name="",
             po_box_number="",
@@ -20,7 +20,7 @@ class AddressFormatterTest(TestCase):
         self.assertEqual("33 BONEHURST ROAD, HORLEY", af.generate_address_label())
 
     def test_building_name_x_to_y(self):
-        af = AddressFormatter(
+        af = PAFAddressFormatter(
             organisation_name="MELA",
             department_name="",
             po_box_number="",
@@ -38,7 +38,7 @@ class AddressFormatterTest(TestCase):
         )
 
     def test_building_name_suffix(self):
-        af = AddressFormatter(
+        af = PAFAddressFormatter(
             organisation_name="",
             department_name="",
             po_box_number="",
@@ -56,7 +56,7 @@ class AddressFormatterTest(TestCase):
         )
 
     def test_sub_building_name(self):
-        af = AddressFormatter(
+        af = PAFAddressFormatter(
             organisation_name="",
             department_name="",
             po_box_number="",
@@ -74,7 +74,7 @@ class AddressFormatterTest(TestCase):
         )
 
     def test_org_and_dept(self):
-        af = AddressFormatter(
+        af = PAFAddressFormatter(
             organisation_name="INVERCLYDE COUNCIL",
             department_name="TRANSPORT & CLEANSING",
             po_box_number="",
@@ -93,7 +93,7 @@ class AddressFormatterTest(TestCase):
         )
 
     def test_po_box(self):
-        af = AddressFormatter(
+        af = PAFAddressFormatter(
             organisation_name="AKZO NOBEL CAR REFINISHES BV",
             department_name="",
             po_box_number="3986",

@@ -3,7 +3,7 @@ import os
 import re
 from io import StringIO
 from django.test import TestCase
-from uk_geo_utils.management.commands.clean_addressbase import Command
+from uk_geo_utils.management.commands.clean_addressbase_plus import Command
 
 
 class CleanAddressesTest(TestCase):
@@ -12,7 +12,8 @@ class CleanAddressesTest(TestCase):
         # path to files we're going to process
         csv_path = os.path.abspath(
             os.path.join(
-                os.path.dirname(os.path.abspath(__file__)), "../fixtures/addressbase"
+                os.path.dirname(os.path.abspath(__file__)),
+                "../fixtures/addressbase_plus",
             )
         )
 
@@ -28,7 +29,7 @@ class CleanAddressesTest(TestCase):
         expected_outfile = os.path.abspath(
             os.path.join(
                 os.path.dirname(os.path.abspath(__file__)),
-                "../fixtures/addressbase/addressbase_cleaned.csv",
+                "../fixtures/addressbase_plus/addressbase_cleaned.csv",
             )
         )
 
@@ -41,7 +42,7 @@ class CleanAddressesTest(TestCase):
         with open(expected_outfile) as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
-                self.assertEqual(4, len(row))
+                self.assertEqual(5, len(row))
                 self.assertTrue(row[0].startswith("1000000000"))
                 self.assertTrue(
                     re.match(r"SRID=4326;POINT\(-?\d*.?\d+ -?\d*.?\d+\)", row[3])

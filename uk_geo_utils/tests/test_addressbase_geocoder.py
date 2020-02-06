@@ -13,6 +13,7 @@ from uk_geo_utils.geocoders import (
     StrictMatchException,
 )
 from uk_geo_utils.helpers import AddressSorter
+from uk_geo_utils.models import Address
 
 
 class FuzzyInt(int):
@@ -79,7 +80,7 @@ class AddressBaseGeocoderTest(TestCase):
         We find records for the given postcode in the AddressBase table
         but there are no corresponding records in the ONSUD for the UPRNs we found
         """
-        with self.assertNumQueries(FuzzyInt(0, 4)):
+        with self.assertNumQueries(FuzzyInt(0, 5)):
             addressbase = AddressBaseGeocoder("AA11AA")
 
             with self.assertRaises(CodesNotFoundException):
@@ -97,7 +98,7 @@ class AddressBaseGeocoderTest(TestCase):
         Note that in this case, the ONSUD table does not contain corresponding
         records for *all* of the UPRNs we found, but we accept the result anyway
         """
-        with self.assertNumQueries(FuzzyInt(0, 4)):
+        with self.assertNumQueries(FuzzyInt(0, 5)):
             addressbase = AddressBaseGeocoder(
                 "bb 1   1B B"
             )  # intentionally spurious whitespace and case
@@ -125,7 +126,7 @@ class AddressBaseGeocoderTest(TestCase):
         The UPRNs described by this postcode map to more than one 'lad'
         but they all map to the same 'cty'
         """
-        with self.assertNumQueries(FuzzyInt(0, 4)):
+        with self.assertNumQueries(FuzzyInt(0, 5)):
             addressbase = AddressBaseGeocoder("CC1 1CC")
 
             with self.assertRaises(MultipleCodesException):
@@ -193,3 +194,16 @@ class AddressBaseGeocoderTest(TestCase):
             self.assertNotEqual(addressbase._addresses, addressbase.addresses)
             sorter = AddressSorter(addressbase._addresses)
             self.assertEqual(addressbase.addresses, sorter.natural_sort())
+
+    def test_centroid_ignores_type_l(self):
+        addressbase = AddressBaseGeocoder("BB11BB")
+        before_centroid = addressbase.centroid
+        # adding a type L UPRN shouldn't change the postcode centroid
+        Address.objects.create(
+            postcode="BB1 1BB",
+            address="foobar",
+            location=Point(94.5, 65.7, srid=4326),
+            addressbase_postal="L",
+        )
+        after_centroid = addressbase.centroid
+        self.assertEqual(before_centroid, after_centroid)

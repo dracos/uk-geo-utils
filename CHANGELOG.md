@@ -1,5 +1,12 @@
 # Changelog
 
+## :package: [0.9.0](https://pypi.org/project/uk-geo-utils/0.9.0/) - 2019-02-06
+
+* Add pre-processing script for Addressbase Plus: `clean_addressbase_plus`
+* Rename pre-processing script for AddressBase Standard from `clean_addressbase` to `clean_addressbase_standard`
+* Add `addressbase_postal` field to `AbstractAddress` and `Address` model
+* Only use type D UPRNs for calculating `.centroid` in `AddressBaseGeocoder`
+
 ## :package: [0.8.1](https://pypi.org/project/uk-geo-utils/0.8.1/) - 2019-10-16
 
 Tested on Python 3.8

@@ -1,7 +1,7 @@
 import csv
 import os
 import glob
-from uk_geo_utils.helpers import AddressFormatter
+from uk_geo_utils.helpers import PAFAddressFormatter
 from django.core.management.base import BaseCommand
 
 
@@ -53,20 +53,27 @@ class Command(BaseCommand):
                 if csv_path.endswith("cleaned.csv"):
                     continue
                 self.out_csv = csv.DictWriter(
-                    out_file, fieldnames=["UPRN", "address", "postcode", "location"]
+                    out_file,
+                    fieldnames=[
+                        "UPRN",
+                        "address",
+                        "postcode",
+                        "location",
+                        "addressbase_postal",
+                    ],
                 )
                 self.stdout.write(csv_path)
                 self.clean_csv(csv_path)
                 out_file.flush()
 
-    def line_filer(self, csv_path):
+    def line_filter(self, csv_path):
         with open(csv_path) as csv_file:
             for line in csv.DictReader(csv_file, fieldnames=self.fieldnames):
                 # Do any filtering we might need to do here
                 yield line
 
     def clean_csv(self, csv_path):
-        for line in self.line_filer(csv_path):
+        for line in self.line_filter(csv_path):
             self.out_csv.writerow(self.clean_output_line(line))
 
     def clean_address(self, line):
@@ -84,7 +91,7 @@ class Command(BaseCommand):
             "POST_TOWN",
         ]
         kwargs = {k.lower(): line[k] for k in line if k in address_fields}
-        return AddressFormatter(**kwargs).generate_address_label()
+        return PAFAddressFormatter(**kwargs).generate_address_label()
 
     def clean_output_line(self, line):
         data = {}
@@ -94,4 +101,5 @@ class Command(BaseCommand):
         data["location"] = "SRID=4326;POINT({} {})".format(
             line["LONGITUDE"], line["LATITUDE"]
         )
+        data["addressbase_postal"] = "D"
         return data

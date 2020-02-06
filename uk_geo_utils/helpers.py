@@ -53,7 +53,7 @@ class Postcode:
         return self.postcode
 
 
-class AddressFormatter:
+class PAFAddressFormatter:
     def __init__(
         self,
         organisation_name,
@@ -126,7 +126,7 @@ class AddressFormatter:
     def _is_exception_rule(self, element):
         """ Check for "exception rule".
 
-        Address elements will be appended onto a new line on the lable except
+        Address elements will be appended onto a new line on the label except
         for when the penultimate lable line fulfils certain criteria, in which
         case the element will be concatenated onto the penultimate line. This
         method checks for those criteria.
@@ -167,6 +167,111 @@ class AddressFormatter:
     def __str__(self):
         """Return the label form of the address."""
         return ",".join(self.generate_address_label())
+
+
+class LocalAuthAddressFormatter:
+    def __init__(
+        self,
+        organisation_name,
+        sao_start_number,
+        sao_start_suffix,
+        sao_end_number,
+        sao_end_suffix,
+        sao_text,
+        pao_start_number,
+        pao_start_suffix,
+        pao_end_number,
+        pao_end_suffix,
+        pao_text,
+        street_description,
+        locality,
+        town_name,
+    ):
+        self.organisation_name = organisation_name
+        self.sao_start_number = sao_start_number
+        self.sao_start_suffix = sao_start_suffix
+        self.sao_end_number = sao_end_number
+        self.sao_end_suffix = sao_end_suffix
+        self.sao_text = sao_text
+        self.pao_start_number = pao_start_number
+        self.pao_start_suffix = pao_start_suffix
+        self.pao_end_number = pao_end_number
+        self.pao_end_suffix = pao_end_suffix
+        self.pao_text = pao_text
+        self.street_description = street_description
+        self.locality = locality
+        self.town_name = town_name
+
+    @property
+    def primary_addressable_object(self):
+        return self._get_addressable_object(
+            self.pao_text,
+            self.pao_start_number,
+            self.pao_start_suffix,
+            self.pao_end_number,
+            self.pao_end_suffix,
+        )
+
+    @property
+    def secondary_addressable_object(self):
+        return self._get_addressable_object(
+            self.sao_text,
+            self.sao_start_number,
+            self.sao_start_suffix,
+            self.sao_end_number,
+            self.sao_end_suffix,
+        )
+
+    def _get_addressable_object(
+        self, text, start_number, start_suffix, end_number, end_suffix
+    ):
+        # based on SQL from
+        # https://www.ordnancesurvey.co.uk/documents/addressbase-products-getting-started-guide1.pdf
+        # page 57-59
+        ao = ""
+        if text:
+            ao = ao + text + " "
+
+        if start_number and not start_suffix and not end_number:
+            ao = ao + start_number + " "
+        else:
+            ao = ao + start_number
+
+        if start_suffix and not end_number:
+            ao = ao + start_suffix + " "
+        elif start_suffix and end_number:
+            ao = ao + start_suffix
+
+        if end_suffix and end_number:
+            ao = ao + "-"
+        elif start_number and end_number:
+            ao = ao + "-"
+
+        if end_number and not end_suffix:
+            ao = ao + end_number + " "
+        elif not end_number:
+            ao = ao + ""
+        else:
+            ao = ao + end_number
+
+        if end_suffix:
+            ao = ao + end_suffix + " "
+
+        return ao
+
+    def generate_address_label(self):
+        add_line2 = (
+            self.secondary_addressable_object
+            + self.primary_addressable_object
+            + self.street_description
+        )
+        address_label = [
+            self.organisation_name,
+            add_line2,
+            self.locality,
+            self.town_name,
+        ]
+        return ", ".join([f for f in address_label if f])
 
 
 class AddressSorter:
