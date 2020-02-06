@@ -225,6 +225,9 @@ class LocalAuthAddressFormatter:
     def _get_addressable_object(
         self, text, start_number, start_suffix, end_number, end_suffix
     ):
+        # based on SQL from
+        # https://www.ordnancesurvey.co.uk/documents/addressbase-products-getting-started-guide1.pdf
+        # page 57-59
         ao = ""
         if text:
             ao = ao + text + " "
