@@ -13,6 +13,7 @@ from uk_geo_utils.geocoders import (
     StrictMatchException,
 )
 from uk_geo_utils.helpers import AddressSorter
+from uk_geo_utils.models import Address
 
 
 class FuzzyInt(int):
@@ -193,3 +194,16 @@ class AddressBaseGeocoderTest(TestCase):
             self.assertNotEqual(addressbase._addresses, addressbase.addresses)
             sorter = AddressSorter(addressbase._addresses)
             self.assertEqual(addressbase.addresses, sorter.natural_sort())
+
+    def test_centroid_ignores_type_l(self):
+        addressbase = AddressBaseGeocoder("BB11BB")
+        before_centroid = addressbase.centroid
+        # adding a type L UPRN shouldn't change the postcode centroid
+        Address.objects.create(
+            postcode="BB1 1BB",
+            address="foobar",
+            location=Point(94.5, 65.7, srid=4326),
+            addressbase_postal="L",
+        )
+        after_centroid = addressbase.centroid
+        self.assertEqual(before_centroid, after_centroid)
