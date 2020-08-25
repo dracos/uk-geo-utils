@@ -1,5 +1,11 @@
 # Changelog
 
+## :package: [0.10.0](https://pypi.org/project/uk-geo-utils/0.10.0/) - 2020-08-25
+
+* Fixed issue where ForeignKey relationships would return the relation not
+ the code when using `get_code`.
+
+
 ## :package: [0.9.0](https://pypi.org/project/uk-geo-utils/0.9.0/) - 2019-02-06
 
 * Add pre-processing script for Addressbase Plus: `clean_addressbase_plus`
