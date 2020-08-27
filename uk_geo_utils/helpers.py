@@ -124,7 +124,7 @@ class PAFAddressFormatter:
         return ", ".join([f for f in self.address_label if f])
 
     def _is_exception_rule(self, element):
-        """ Check for "exception rule".
+        """Check for "exception rule".
 
         Address elements will be appended onto a new line on the label except
         for when the penultimate lable line fulfils certain criteria, in which
