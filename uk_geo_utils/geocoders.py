@@ -104,7 +104,7 @@ class AddressBaseGeocoder(BaseGeocoder):
 
     def get_code(self, code_type, uprn=None, strict=False):
         # check the code_type field exists on our model
-        self.onsud_model._meta.get_field(code_type)
+        code_type_field = self.onsud_model._meta.get_field(code_type)
 
         if uprn:
             self._addresses.get_cached(uprn)
@@ -127,7 +127,7 @@ class AddressBaseGeocoder(BaseGeocoder):
                 # if not strict, ignore this condition
                 pass
 
-        codes = set([getattr(u, code_type) for u in self._uprns])
+        codes = set([getattr(u, code_type_field.attname) for u in self._uprns])
         if len(codes) == 1:
             # all the uprns supplied are in the same area
             return list(codes)[0]
