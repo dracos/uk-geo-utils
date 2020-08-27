@@ -41,6 +41,14 @@ class OnspdNotImportedException(ObjectDoesNotExist):
     pass
 
 
+TERRITORIES = {
+    "E": "ENG",
+    "W": "WLS",
+    "S": "SCT",
+    "N": "NIR",
+}
+
+
 class BaseGeocoder(metaclass=abc.ABCMeta):
     def __init__(self, postcode):
         self.postcode = Postcode(postcode)
@@ -52,6 +60,10 @@ class BaseGeocoder(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def get_code(code_type, uprn=None):
+        pass
+
+    @abc.abstractmethod
+    def get_territory(self, uprn=None):
         pass
 
 
@@ -128,6 +140,13 @@ class AddressBaseGeocoder(BaseGeocoder):
                 pass
 
         codes = set([getattr(u, code_type_field.attname) for u in self._uprns])
+        if code_type == "rgn":
+            # Special case region, as ONSUD splits England up in to regions
+            # that we don't care about
+
+            # Squash the codes in to a set of the territory code
+            codes = set([code[0] for code in codes])
+
         if len(codes) == 1:
             # all the uprns supplied are in the same area
             return list(codes)[0]
@@ -136,6 +155,10 @@ class AddressBaseGeocoder(BaseGeocoder):
                 "Postcode %s covers UPRNs in more than one '%s' area"
                 % (self.postcode, code_type)
             )
+
+    def get_territory(self, code="rgn", uprn=None):
+        code = self.get_code(code)
+        return TERRITORIES.get(code, None)
 
 
 class OnspdGeocoder(BaseGeocoder):
@@ -156,3 +179,7 @@ class OnspdGeocoder(BaseGeocoder):
 
     def get_code(self, code_type):
         return getattr(self.record, code_type)
+
+    def get_territory(self, uprn=None):
+        code = self.get_code("rgn")
+        return TERRITORIES.get(code, None)

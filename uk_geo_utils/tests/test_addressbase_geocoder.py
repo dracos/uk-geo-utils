@@ -207,3 +207,7 @@ class AddressBaseGeocoderTest(TestCase):
         )
         after_centroid = addressbase.centroid
         self.assertEqual(before_centroid, after_centroid)
+
+    def test_get_territory(self):
+        addressbase = AddressBaseGeocoder("BB11BB")
+        self.assertEqual(addressbase.get_territory(), "ENG")
