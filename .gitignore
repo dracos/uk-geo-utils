@@ -10,6 +10,7 @@ build/
 dist/
 uk_geo_utils.egg-info/
 README.rst
+.tox/
 
 # pipenv lockfile
 Pipfile
