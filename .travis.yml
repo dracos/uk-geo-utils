@@ -2,7 +2,6 @@ sudo: false
 dist: xenial
 language: python
 python:
-  - '3.5'
   - '3.6'
   - '3.7'
   - '3.8'
@@ -12,7 +11,6 @@ matrix:
       env: BLACK=1
 env:
   matrix:
-    - DJANGO_VERSION='>=1.11,<1.12'
     - DJANGO_VERSION='>=2.1,<2.2'
     - DJANGO_VERSION='>=2.2,<2.3'
 addons:
