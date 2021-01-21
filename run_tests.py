@@ -18,7 +18,7 @@ if not settings.configured:
                 "NAME": "test",
                 "USER": "postgres",
                 "PASSWORD": "",
-                "HOST": "",
+                "HOST": "localhost",
                 "PORT": "",
             }
         },
