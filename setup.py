@@ -17,7 +17,7 @@ def _get_description():
 
 setup(
     name="uk_geo_utils",
-    version="0.10.2",
+    version="0.10.3",
     author="chris48s",
     license="MIT",
     url="https://github.com/DemocracyClub/uk-geo-utils",
@@ -26,7 +26,7 @@ setup(
     description="Django app for working with OS Addressbase, ONSUD and ONSPD",
     long_description=_get_description(),
     long_description_content_type="text/markdown",
-    install_requires=["Django>=2.2,<2.3", "psycopg2-binary"],
+    install_requires=["Django>=2.2,<3.3", "psycopg2-binary"],
     extras_require={"development": ["coveralls", "mkdocs", "tox", "black"]},
     classifiers=[
         "Framework :: Django",
