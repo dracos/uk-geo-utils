@@ -11,8 +11,10 @@ matrix:
       env: BLACK=1
 env:
   matrix:
-    - DJANGO_VERSION='>2.2'
-    - DJANGO_VERSION='>=2.2,<3.3'
+    - DJANGO_VERSION='>=2.1,<2.2'
+    - DJANGO_VERSION='>=2.2,<2.3'
+    - DJANGO_VERSION='>=3.2,<3.3'
+    - DJANGO_VERSION='>3.2'
 addons:
   postgresql: '10'
   apt:
