@@ -4,7 +4,7 @@ Django app for working with OS AddressBase, ONSUD and ONSPD
 
 ---
 
-[![Build Status](https://travis-ci.org/DemocracyClub/uk-geo-utils.svg?branch=master)](https://travis-ci.org/DemocracyClub/uk-geo-utils)
+[![Build Status](https://app.circleci.com/pipelines/github/DemocracyClub/uk-geo-utils)]
 [![Coverage Status](https://coveralls.io/repos/github/DemocracyClub/uk-geo-utils/badge.svg?branch=master)](https://coveralls.io/github/DemocracyClub/uk-geo-utils?branch=master)
 ![PyPI Version](https://img.shields.io/pypi/v/uk-geo-utils.svg)
 ![License](https://img.shields.io/pypi/l/uk-geo-utils.svg)
