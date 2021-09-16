@@ -1,7 +1,4 @@
 version: 2.1
-orbs:
-  python: circleci/python@1.4.0
-
 jobs:
   build-and-test:
     docker:
@@ -13,7 +10,6 @@ jobs:
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: test
-    executor: python/default
     steps:
       - checkout
       - run:
