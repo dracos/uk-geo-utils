@@ -1,5 +1,8 @@
 import os
+import json
 from setuptools import find_packages, setup
+
+import uk_geo_utils
 
 
 # allow setup.py to be run from any path
@@ -15,9 +18,13 @@ def _get_description():
         return ""
 
 
+def get_version():
+    return uk_geo_utils.__version__
+
+
 setup(
     name="uk_geo_utils",
-    version="0.10.3",
+    version=get_version(),
     author="chris48s",
     license="MIT",
     url="https://github.com/DemocracyClub/uk-geo-utils",
