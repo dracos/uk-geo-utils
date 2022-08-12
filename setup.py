@@ -27,7 +27,7 @@ setup(
     long_description=_get_description(),
     long_description_content_type="text/markdown",
     install_requires=["Django>=2.2,<3.3", "psycopg2-binary"],
-    extras_require={"development": ["coveralls", "mkdocs", "tox", "black"]},
+    extras_require={"development": ["coveralls", "mkdocs", "black"]},
     classifiers=[
         "Framework :: Django",
         "Framework :: Django :: 2.2",
