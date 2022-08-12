@@ -1,8 +1,9 @@
 version: 2.1
-jobs:
-  build-and-test:
+
+executors:
+  py38:
     docker:
-      - image: cimg/python:3.8.2
+      - image: cimg/python:3.8
         environment:
           CIRCLECI: true
           PGHOST: 127.0.0.1
@@ -10,18 +11,64 @@ jobs:
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: test
+  py39:
+    docker:
+      - image: cimg/python:3.9
+        environment:
+          CIRCLECI: true
+          PGHOST: 127.0.0.1
+      - image: circleci/postgres:11.2-alpine-postgis-ram
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: test
+  py310:
+    docker:
+      - image: cimg/python:3.10
+        environment:
+          CIRCLECI: true
+          PGHOST: 127.0.0.1
+      - image: circleci/postgres:11.2-alpine-postgis-ram
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: test
+
+jobs:
+  build-and-test:
+    parameters:
+      python_version:
+        type: executor
+      django_version:
+        type: string
+    executor: << parameters.python_version >>
     steps:
       - checkout
       - run:
+          name: Install Django << parameters.django_version >>
+          command: |
+            pip install "django<< parameters.django_version >>"
+      - run:
           name: Install dependencies
           command: |
-            pip install -U pip tox
+            pip install -U pip .[development]
             sudo apt-get update && sudo apt-get install -y gdal-bin python3-gdal
       - run:
-          command: tox
+          name: Black
+          command: |
+            black . --check
+      - run:
           name: Run tests
+          command: |
+            coverage run --source=uk_geo_utils --omit=uk_geo_utils/tests/*.py,uk_geo_utils/migrations/*.py,uk_geo_utils/fixtures/*.py run_tests.py
+      - run:
+          name: Submit to Coveralls
+          command: |
+            coveralls
 
 workflows:
   main:
     jobs:
-      - build-and-test
+      - build-and-test:
+          matrix:
+            parameters:
+              python_version: [ py38, py39, py310 ]
+              django_version: [ ">=3.2,<4.0", ">=4.0,<4.1", ">=4.1,<4.2" ]
