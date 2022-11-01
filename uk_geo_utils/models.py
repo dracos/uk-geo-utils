@@ -171,6 +171,12 @@ class AbstractOnspd(models.Model):
     imd = models.CharField(blank=True, max_length=5)
     calncv = models.CharField(blank=True, max_length=9)
     stp = models.CharField(blank=True, max_length=9)
+
+    # The following three fields are nullable because they won't appear in pre-Aug2022 releases
+    oa21 = models.CharField(null=True, max_length=9)
+    lsoa21 = models.CharField(null=True, max_length=9)
+    msoa21 = models.CharField(null=True, max_length=9)
+
     location = models.PointField(null=True, blank=True)
     objects = GeoManager()
 

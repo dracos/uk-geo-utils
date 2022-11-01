@@ -5,6 +5,26 @@ from django.db import transaction
 from django.core.management.base import BaseCommand
 from uk_geo_utils.helpers import get_onspd_model
 
+HEADERS = {
+    "may2018": """
+        pcd, pcd2, pcds, dointr, doterm, oscty, ced, oslaua, osward,
+        parish, usertype, oseast1m, osnrth1m, osgrdind, oshlthau,
+        nhser, ctry, rgn, streg, pcon, eer, teclec, ttwa, pct, nuts,
+        statsward, oa01, casward, park, lsoa01, msoa01, ur01ind,
+        oac01, oa11, lsoa11, msoa11, wz11, ccg, bua11, buasd11,
+        ru11ind, oac11, lat, long, lep1, lep2, pfa, imd, calncv, stp
+        """,
+    "aug2022": """
+        pcd, pcd2, pcds, dointr, doterm, oscty, ced, oslaua, osward,
+        parish, usertype, oseast1m, osnrth1m, osgrdind, oshlthau,
+        nhser, ctry, rgn, streg, pcon, eer, teclec, ttwa, pct, nuts,
+        statsward, oa01, casward, park, lsoa01, msoa01, ur01ind,
+        oac01, oa11, lsoa11, msoa11, wz11, ccg, bua11, buasd11,
+        ru11ind, oac11, lat, long, lep1, lep2, pfa, imd, calncv, stp,
+        oa21, lsoa21, msoa21
+        """,
+}
+
 
 class Command(BaseCommand):
     """
@@ -27,9 +47,18 @@ class Command(BaseCommand):
             dest="transaction",
         )
 
+        parser.add_argument(
+            "-h",
+            "--header",
+            help="Specify which header the csv has",
+            default="aug2022",
+            choices=["may2018", "aug2022"],
+        )
+
     def handle(self, *args, **kwargs):
         self.table_name = get_onspd_model()._meta.db_table
         self.path = kwargs["path"]
+        self.header = HEADERS[kwargs.get("header", "aug2022")]
         if kwargs["transaction"]:
             with transaction.atomic():
                 self.import_onspd()
@@ -53,15 +82,10 @@ class Command(BaseCommand):
                 cursor.copy_expert(
                     """
                     COPY %s (
-                    pcd, pcd2, pcds, dointr, doterm, oscty, ced, oslaua, osward,
-                    parish, usertype, oseast1m, osnrth1m, osgrdind, oshlthau,
-                    nhser, ctry, rgn, streg, pcon, eer, teclec, ttwa, pct, nuts,
-                    statsward, oa01, casward, park, lsoa01, msoa01, ur01ind,
-                    oac01, oa11, lsoa11, msoa11, wz11, ccg, bua11, buasd11,
-                    ru11ind, oac11, lat, long, lep1, lep2, pfa, imd, calncv, stp
+                    %s
                     ) FROM STDIN (FORMAT CSV, DELIMITER ',', quote '"', HEADER);
                 """
-                    % (self.table_name),
+                    % (self.table_name, self.header),
                     fp,
                 )
 
