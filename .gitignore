@@ -21,3 +21,6 @@ Pipfile.lock
 
 # compiled docs
 site/
+
+# pycharm
+.idea
