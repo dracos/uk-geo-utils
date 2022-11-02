@@ -37,14 +37,13 @@ setup(
     extras_require={"development": ["coveralls", "mkdocs", "black"]},
     classifiers=[
         "Framework :: Django",
-        "Framework :: Django :: 2.2",
+        "Framework :: Django :: 4.1",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
     ],
     project_urls={
         "Documentation": "https://democracyclub.github.io/uk-geo-utils/",
