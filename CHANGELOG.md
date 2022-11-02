@@ -1,10 +1,14 @@
 # Changelog
 
+## :package: [0.11.0](https://pypi.org/project/uk-geo-utils/0.11.0/) - 2021-11-02
+
+* Update ONSPD model for 2021 census fields. Now call with `--header may2018` or `--header aug2022`.
+* Specify required python versions 3.8-3.10 inline with CI testing. 
+
 ## :package: [0.10.0](https://pypi.org/project/uk-geo-utils/0.10.0/) - 2020-08-25
 
 * Fixed issue where ForeignKey relationships would return the relation not
  the code when using `get_code`.
-
 
 ## :package: [0.9.0](https://pypi.org/project/uk-geo-utils/0.9.0/) - 2019-02-06
 
