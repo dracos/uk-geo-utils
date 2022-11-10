@@ -48,7 +48,6 @@ class Command(BaseCommand):
         )
 
         parser.add_argument(
-            "-h",
             "--header",
             help="Specify which header the csv has",
             default="aug2022",
