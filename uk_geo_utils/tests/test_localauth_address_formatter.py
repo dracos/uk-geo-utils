@@ -110,3 +110,24 @@ class LocalAuthAddressFormatterTest(TestCase):
         self.assertEqual(
             "FLAT 1 4A WARWICK ROAD, COTHAM, BRISTOL", af.generate_address_label()
         )
+
+    def test_right_suffix_tested(self):
+        af = LocalAuthAddressFormatter(
+            organisation_name="",
+            sao_start_number="",
+            sao_start_suffix="",
+            sao_end_number="",
+            sao_end_suffix="",
+            sao_text="",
+            pao_start_number="",
+            pao_start_suffix="",
+            pao_end_number="10",
+            pao_end_suffix="B",
+            pao_text="",
+            street_description="WARWICK ROAD",
+            locality="COTHAM",
+            town_name="BRISTOL",
+        )
+        self.assertEqual(
+            "10B WARWICK ROAD, COTHAM, BRISTOL", af.generate_address_label()
+        )

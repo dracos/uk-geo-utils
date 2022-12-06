@@ -242,7 +242,7 @@ class LocalAuthAddressFormatter:
         elif start_suffix and end_number:
             ao = ao + start_suffix
 
-        if end_suffix and end_number:
+        if start_suffix and end_number:
             ao = ao + "-"
         elif start_number and end_number:
             ao = ao + "-"
