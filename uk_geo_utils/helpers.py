@@ -225,37 +225,24 @@ class LocalAuthAddressFormatter:
     def _get_addressable_object(
         self, text, start_number, start_suffix, end_number, end_suffix
     ):
-        # based on SQL from
+        # simplified from SQL from
         # https://www.ordnancesurvey.co.uk/documents/addressbase-products-getting-started-guide1.pdf
         # page 57-59
-        ao = ""
-        if text:
-            ao = ao + text + " "
+        ao = text or ""
+        if ao and start_number:
+            ao += " "
 
-        if start_number and not start_suffix and not end_number:
-            ao = ao + start_number + " "
-        else:
-            ao = ao + start_number
+        ao += start_number or ""
+        ao += start_suffix or ""
 
-        if start_suffix and not end_number:
-            ao = ao + start_suffix + " "
-        elif start_suffix and end_number:
-            ao = ao + start_suffix
+        if (start_suffix or start_number) and end_number:
+            ao += "-"
 
-        if start_suffix and end_number:
-            ao = ao + "-"
-        elif start_number and end_number:
-            ao = ao + "-"
+        ao += end_number or ""
+        ao += end_suffix or ""
 
-        if end_number and not end_suffix:
-            ao = ao + end_number + " "
-        elif not end_number:
-            ao = ao + ""
-        else:
-            ao = ao + end_number
-
-        if end_suffix:
-            ao = ao + end_suffix + " "
+        if ao:
+            ao += " "
 
         return ao
 
